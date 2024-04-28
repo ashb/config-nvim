@@ -1,3 +1,9 @@
+local function script_path(path)
+  local str = path or debug.getinfo(2, "S").source:sub(2)
+  return str:match "^(.+)/[^/]+"
+end
+print(vim.fn.fnamemodify(script_path(), ":p:h:h:h"))
+
 return {
   defaults = { lazy = true },
   install = { colorscheme = { "nvchad" } },
@@ -13,6 +19,10 @@ return {
 
   performance = {
     rtp = {
+      paths = {
+        -- Ensure that our non-standard nvim config dir is in the runtimepath still!
+        vim.fn.fnamemodify(script_path(), ":p:h:h:h"),
+      },
       disabled_plugins = {
         "2html_plugin",
         "tohtml",
