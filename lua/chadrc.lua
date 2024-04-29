@@ -48,6 +48,9 @@ M.ui = {
     CurSearch = { bg = "purple", fg = "black", link = "" },
   },
 
+  -- Disable NvChad's signature help in favour of Noice's
+  lsp = { signature = false },
+
   term = {
     float = {
       row = 0.15,

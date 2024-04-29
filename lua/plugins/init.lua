@@ -240,14 +240,6 @@ return {
     end,
   },
 
-  -- Have select menus (code action for instance) show up as a nice popup at the cursor location
-  {
-    "ray-x/guihua.lua",
-    event = "VeryLazy",
-    init = function()
-      vim.ui.select = require("guihua.gui").select
-    end,
-  },
 
   {
     "nvim-telescope/telescope.nvim",
@@ -273,7 +265,7 @@ return {
     cmd = { "BlameToggle" },
   },
 
-
+  -- "Peek" at impl/definition etc instead of go straight ther
   {
     "dnlhc/glance.nvim",
     cmd = { "Glance" },
@@ -284,5 +276,31 @@ return {
       {"gD", "<CMD>Glance definitions<CR>", desc = "LSP Glance definition" },
       {"<space>D", "<CMD>Glance type_definitions<CR>", desc = "LSP Glance type definition" },
     }
+  },
+
+  --[[
+  --      UI OVERHAULS
+  --]]
+
+  -- Have select menus (code action for instance) show up as a nice popup at the cursor location
+  {
+    "ray-x/guihua.lua",
+    event = "VeryLazy",
+    init = function()
+      vim.ui.select = require("guihua.gui").select
+    end,
+  },
+
+  -- Better messages and command prompts!
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    opts = function()
+      return require "configs.noice"
+    end,
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify",
+    },
   },
 }
