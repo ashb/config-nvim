@@ -270,12 +270,7 @@ return {
     "dnlhc/glance.nvim",
     cmd = { "Glance" },
     opts = { border = { enable = true } },
-    keys = {
-      {"gr", "<CMD>Glance references<CR>", desc = "LSP Glance references" },
-      {"gi", "<CMD>Glance implementations<CR>", desc = "LSP Glance implementations" },
-      {"gD", "<CMD>Glance definitions<CR>", desc = "LSP Glance definition" },
-      {"<space>D", "<CMD>Glance type_definitions<CR>", desc = "LSP Glance type definition" },
-    }
+    -- Keymaps defined inside configs.lspconfig
   },
 
   --[[

@@ -1,9 +1,30 @@
-local on_attach = require("nvchad.configs.lspconfig").on_attach
 local on_init = require("nvchad.configs.lspconfig").on_init
 local capabilities = require("nvchad.configs.lspconfig").capabilities
 
 local lspconfig = require "lspconfig"
 local servers = { "tsserver", "ccls", "rust_analyzer" }
+
+local on_attach = function(client, bufnr)
+  local function opts(desc)
+    return { buffer = bufnr, desc = "LSP " .. desc }
+  end
+
+  require("nvchad.configs.lspconfig").on_attach(client, bufnr)
+
+  -- Set up our glances-specific key maps for this buffer (replace the ones NvChad sets)
+  local keys = {
+    {"gr", "<CMD>Glance references<CR>", opts "Glance references" },
+    {"gi", "<CMD>Glance implementations<CR>", opts "Glance implementations" },
+    {"gD", "<CMD>Glance definitions<CR>", opts "Glance definition" },
+    {"<space>D", "<CMD>Glance type_definitions<CR>", opts "LSP Glance type definition" },
+  }
+
+  for _, key in pairs(keys) do
+    -- Remove the existing mapping if any
+    pcall(vim.keymap.del, "n", key[1], key[3])
+    vim.keymap.set("n", key[1], key[2], key[3])
+  end
+end
 
 -- lsps with default config
 for _, lsp in ipairs(servers) do
