@@ -2,7 +2,6 @@ local function script_path(path)
   local str = path or debug.getinfo(2, "S").source:sub(2)
   return str:match "^(.+)/[^/]+"
 end
-print(vim.fn.fnamemodify(script_path(), ":p:h:h:h"))
 
 return {
   defaults = { lazy = true },

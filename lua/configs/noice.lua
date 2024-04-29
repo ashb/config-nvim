@@ -15,6 +15,35 @@ local M = {
     inc_rename = true, -- enables an input dialog for inc-rename.nvim
     lsp_doc_border = true, -- add a border to hover docs and signature help
   },
+
+  ---@type NoiceRouteConfig[]
+  routes = {
+    {
+      filter = {
+        any = {
+          -- Skip the "file written" (aka Saved!) notifications
+          {
+            event = "msg_show",
+            kind = "",
+            find = "written",
+          },
+          -- Undo/redo messages
+          {
+            event = "msg_show",
+            kind = "",
+            find = "^%d [^%s]+ lines?",
+          },
+
+          {
+            event = "msg_show",
+            kind = "",
+            find = "^%d lines? [^%s]+",
+          },
+        },
+      },
+      opts = { skip = true },
+    },
+  },
 }
 
 return M
