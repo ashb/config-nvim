@@ -1,3 +1,9 @@
+-- This file is only needed if this repo is not checked out to the neovim 
+-- standard config path (`~/.config/nvim` on linux/macos). 
+--
+-- If you want your config to live somewhere else, then:
+--
+--   `export VIMINIT="source ~/path/to/config-nvim/nvimrc.lua`
 local function script_path(path)
   local str = path or debug.getinfo(2, "S").source:sub(2)
   return str:match "^(.+)/[^/]+"
