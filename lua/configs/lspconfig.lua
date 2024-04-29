@@ -11,12 +11,27 @@ local on_attach = function(client, bufnr)
 
   require("nvchad.configs.lspconfig").on_attach(client, bufnr)
 
-  -- Set up our glances-specific key maps for this buffer (replace the ones NvChad sets)
+  -- Remove nvchad's "<spc>ra" hotkey
+  pcall(vim.keymap.del, "n", "<leader>rn", { buffer = bufnr })
+
   local keys = {
-    {"gr", "<CMD>Glance references<CR>", opts "Glance references" },
-    {"gi", "<CMD>Glance implementations<CR>", opts "Glance implementations" },
-    {"gD", "<CMD>Glance definitions<CR>", opts "Glance definition" },
-    {"<space>D", "<CMD>Glance type_definitions<CR>", opts "LSP Glance type definition" },
+    -- Set up our glances-specific key maps for this buffer (replace the ones NvChad sets)
+    { "gr", "<CMD>Glance references<CR>", opts "Glance references" },
+    { "gi", "<CMD>Glance implementations<CR>", opts "Glance implementations" },
+    { "gD", "<CMD>Glance definitions<CR>", opts "Glance definition" },
+    { "<space>D", "<CMD>Glance type_definitions<CR>", opts "Glance type definition" },
+
+    -- Incremenetal rename/preview as you type
+    {
+      "<F2>",
+      function()
+        -- Load it now
+        require "inc_rename"
+        return ":IncRename " .. vim.fn.expand "<cword>"
+      end,
+      { expr = true },
+      opts "LSP Rename",
+    },
   }
 
   for _, key in pairs(keys) do

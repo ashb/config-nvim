@@ -240,7 +240,6 @@ return {
     end,
   },
 
-
   {
     "nvim-telescope/telescope.nvim",
     opts = function()
@@ -270,6 +269,14 @@ return {
     "dnlhc/glance.nvim",
     cmd = { "Glance" },
     opts = { border = { enable = true } },
+    -- Keymaps defined inside configs.lspconfig
+  },
+
+  -- Incremental renaming
+  {
+    "smjonas/inc-rename.nvim",
+    config = true,
+    cmd = { "IncRename" }
     -- Keymaps defined inside configs.lspconfig
   },
 
