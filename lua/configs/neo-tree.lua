@@ -21,6 +21,21 @@ local neo_opts = {
       },
     },
   },
+  document_symbols = {
+    window = {
+      popup = {
+        position = { col = "100%", row = "2" },
+        size = function(state)
+          local root_name = vim.fn.fnamemodify(state.path, ":~")
+          local root_len = string.len(root_name) + 4
+          return {
+            width = math.max(root_len, 50),
+            height = vim.o.lines - 6,
+          }
+        end,
+      },
+    },
+  },
   popup_border_style = "rounded",
   sources = { "filesystem", "buffers", "git_status", "document_symbols" },
   source_selector = { winbar = true },

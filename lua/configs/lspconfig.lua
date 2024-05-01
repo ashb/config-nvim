@@ -32,6 +32,11 @@ local on_attach = function(client, bufnr)
       { expr = true },
       opts "LSP Rename",
     },
+    {
+      "<leader>l",
+      "<CMD>Neotree document_symbols float selector=false toggle<CR>",
+      opts "Document symbols",
+    },
   }
 
   for _, key in pairs(keys) do
