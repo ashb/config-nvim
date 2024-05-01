@@ -76,7 +76,7 @@ M.ui = {
           end
           return 0
         end
-        return "%#NvimTreeNormal#" .. string.rep(" ", getNvimTreeWidth())
+        return "%#NeoTreeNormal#" .. string.rep(" ", getNvimTreeWidth())
       end,
     },
   },
