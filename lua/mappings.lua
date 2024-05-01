@@ -57,5 +57,5 @@ map("n", "K", function()
   end
 end, { desc = "LSP Peek Fold/hover information" })
 
--- Replace with blame.nvim mapping
--- ["<leader>gb"] = "",
+-- Disable the default C-c to copy the entire file!
+map("n", "<C-c>", "<Nop>", { noremap = true, silent = true })
