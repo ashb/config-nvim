@@ -276,7 +276,7 @@ return {
   {
     "smjonas/inc-rename.nvim",
     config = true,
-    cmd = { "IncRename" }
+    cmd = { "IncRename" },
     -- Keymaps defined inside configs.lspconfig
   },
 
@@ -288,6 +288,10 @@ return {
   {
     "ray-x/guihua.lua",
     event = "VeryLazy",
+    opts = {
+      list_sel_hl = "PmenuSel",
+      list_bg = "Pmenu",
+    },
     init = function()
       vim.ui.select = require("guihua.gui").select
     end,
