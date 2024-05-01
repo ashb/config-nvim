@@ -24,14 +24,18 @@ end
 ---@type ChadrcConfig
 local M = {}
 
+
+M.base46 = {
+  integrations = {
+    "rainbowdelimiters",
+  }
+}
+
 M.ui = {
   theme = "onedark",
 
   hl_override = {
     Label = { fg = "purple" },
-    IndentBlanklineContextStart = { bg = "NONE" },
-    IndentBlanklineContextChar = { fg = "#00FF00", nocombine = true },
-    -- IndentBlanklineContextSpaceChar = { gui = "nocombine" },
 
     Comment = { italic = true },
     ["@comment"] = { italic = true },

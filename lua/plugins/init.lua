@@ -305,4 +305,32 @@ return {
       "rcarriga/nvim-notify",
     },
   },
+
+  {
+    "https://gitlab.com/HiPhish/rainbow-delimiters.nvim.git",
+    event = "UIEnter",
+  },
+
+  -- Tweak indent-blankline config for to use rainbow colors for scope indent colors
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    opts = function(_, opt)
+      local highlight = {
+        "RainbowDelimiterRed",
+        "RainbowDelimiterYellow",
+        "RainbowDelimiterBlue",
+        "RainbowDelimiterOrange",
+        "RainbowDelimiterGreen",
+        "RainbowDelimiterViolet",
+        "RainbowDelimiterCyan",
+      }
+
+      local hooks = require "ibl.hooks"
+      hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
+
+      return vim.tbl_deep_extend("force", opt, {
+        scope = { highlight = highlight },
+      })
+    end,
+  },
 }
