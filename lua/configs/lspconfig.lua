@@ -2,7 +2,16 @@ local on_init = require("nvchad.configs.lspconfig").on_init
 local capabilities = require("nvchad.configs.lspconfig").capabilities
 
 local lspconfig = require "lspconfig"
-local servers = { "tsserver", "ccls", "rust_analyzer" }
+local servers = { "tsserver", "ccls", "rust_analyzer", "tilt" }
+
+require 'lspconfig.configs'.tilt = {
+  default_config = {
+  cmd = { "tilt", "lsp", "start" },
+  filetypes = { "tilt" },
+    root_dir = lspconfig.util.root_pattern(".git"),
+  }
+}
+
 
 local on_attach = function(client, bufnr)
   local function opts(desc)
@@ -59,6 +68,7 @@ end
 lspconfig.lua_ls.manager.config.settings.Lua.runtime = { version = "Lua 5.2" }
 
 lspconfig.pyright.setup {
+  on_init = on_init,
   on_attach = function(client, bufnr)
     client.server_capabilities.documentFormattingProvider = false
 
@@ -88,6 +98,7 @@ lspconfig.pyright.setup {
 }
 
 lspconfig.ruff_lsp.setup {
+  on_init = on_init,
   on_attach = function(client, bufnr)
     on_attach(client, bufnr)
     -- Disable hover in favor of Pyright. Otherwise I end up with a "No information available" toast as well as the Pyright hover!
@@ -105,6 +116,7 @@ lspconfig.ruff_lsp.setup {
 }
 
 lspconfig.gopls.setup {
+  on_init = on_init,
   on_attach = function(client, bufnr)
     on_attach(client, bufnr)
     -- nvchad disables these by default! https://github.com/NvChad/NvChad/issues/1933
