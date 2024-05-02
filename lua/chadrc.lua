@@ -97,10 +97,11 @@ M.ui = {
         loadSeparators()
         local icon = " 󰈚 "
         local ft = vim.bo.filetype
+        local bt = vim.bo.buftype or "<none>"
         local name
         local sep_r = separators["right"]
 
-        if vim.tbl_contains({ "help", "terminal" }, ft) then
+        if vim.tbl_contains({ "help" }, ft) or vim.tbl_contains({"terminal"}, bt) then
           -- For these file types, show the name of the previous/alt file instead
           name = vim.fn.expand "#:."
         else
