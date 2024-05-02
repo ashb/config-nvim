@@ -58,6 +58,7 @@ return {
       ensure_installed = {
         -- defaults
         "vim",
+        "vimdoc",
         "lua",
 
         "python",
