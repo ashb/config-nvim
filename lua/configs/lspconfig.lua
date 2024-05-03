@@ -22,6 +22,8 @@ local on_attach = function(client, bufnr)
 
   -- Remove nvchad's "<spc>ra" hotkey
   pcall(vim.keymap.del, "n", "<leader>rn", { buffer = bufnr })
+  -- Delete the buffer specific "K" nmap, we want our global one instead
+  pcall(vim.keymap.del("n", "K", { buffer = bufnr }))
 
   local keys = {
     -- Set up our glances-specific key maps for this buffer (replace the ones NvChad sets)
