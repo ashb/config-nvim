@@ -4,14 +4,13 @@ local capabilities = require("nvchad.configs.lspconfig").capabilities
 local lspconfig = require "lspconfig"
 local servers = { "tsserver", "ccls", "rust_analyzer", "tilt" }
 
-require 'lspconfig.configs'.tilt = {
+require("lspconfig.configs").tilt = {
   default_config = {
-  cmd = { "tilt", "lsp", "start" },
-  filetypes = { "tilt" },
-    root_dir = lspconfig.util.root_pattern(".git"),
-  }
+    cmd = { "tilt", "lsp", "start" },
+    filetypes = { "tilt" },
+    root_dir = lspconfig.util.root_pattern ".git",
+  },
 }
-
 
 local on_attach = function(client, bufnr)
   local function opts(desc)
@@ -23,7 +22,7 @@ local on_attach = function(client, bufnr)
   -- Remove nvchad's "<spc>ra" hotkey
   pcall(vim.keymap.del, "n", "<leader>rn", { buffer = bufnr })
   -- Delete the buffer specific "K" nmap, we want our global one instead
-  pcall(vim.keymap.del("n", "K", { buffer = bufnr }))
+  pcall(vim.keymap.del, "n", "K", { buffer = bufnr })
 
   local keys = {
     -- Set up our glances-specific key maps for this buffer (replace the ones NvChad sets)
