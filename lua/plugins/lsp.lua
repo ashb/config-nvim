@@ -1,0 +1,21 @@
+-- LSP and completion related plugins!
+
+local specs = {
+  {
+    "neovim/nvim-lspconfig",
+    event = { "BufReadPre", "BufNewFile" },
+    config = function()
+      require "configs.lspconfig"
+    end,
+    keys = require("mappings").lsp,
+  },
+  -- "Peek" at impl/definition etc instead of go straight ther
+  {
+    "dnlhc/glance.nvim",
+    cmd = { "Glance" },
+    opts = { border = { enable = true } },
+    keys = require("mappings").glance,
+  },
+}
+
+return specs

@@ -1,4 +1,5 @@
-local M = {
+-- Ui overhaul -- improces cmd line (`:`) and moves a lot of messages to popup windows
+local opts = {
   lsp = {
     -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
     override = {
@@ -7,7 +8,6 @@ local M = {
       ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
     },
   },
-  -- you can enable a preset for easier configuration
   presets = {
     bottom_search = true, -- use a classic bottom cmdline for search
     command_palette = true, -- position the cmdline and popupmenu together
@@ -16,7 +16,19 @@ local M = {
     lsp_doc_border = true, -- add a border to hover docs and signature help
   },
 
-  ---@type NoiceRouteConfig[]
+  views = {
+    cmdline_popup = {
+      border = {
+        style = "none",
+        padding = { 1, 3 },
+      },
+      filter_options = {},
+      win_options = {
+        winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
+      },
+    },
+  },
+
   routes = {
     {
       filter = {
@@ -39,6 +51,12 @@ local M = {
             kind = "",
             find = "^%d lines? [^%s]+",
           },
+
+          {
+            event = "msg_show",
+            kind = "",
+            find = "^%d change; before #%d;",
+          },
         },
       },
       opts = { skip = true },
@@ -46,4 +64,22 @@ local M = {
   },
 }
 
-return M
+-- @type LazySpec
+return {
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    opts = opts,
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      {
+        "rcarriga/nvim-notify",
+        opts = {
+          render = "compact",
+          timeout = 1250,
+          minimum_width = 10,
+        },
+      },
+    },
+  },
+}

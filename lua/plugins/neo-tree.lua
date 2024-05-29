@@ -8,6 +8,10 @@ local neo_opts = {
     },
   },
   filesystem = {
+    use_libuv_file_watcher = true,
+    follow_current_file = {
+      enabled = true,
+    },
     filtered_items = {
       always_show = {
         ".gitignore",
@@ -39,7 +43,6 @@ local neo_opts = {
   popup_border_style = "rounded",
   sources = { "filesystem", "buffers", "git_status", "document_symbols" },
   source_selector = { winbar = true },
-  use_libuv_file_watcher = true,
   default_component_configs = {
     git_status = {
       symbols = {
@@ -57,6 +60,50 @@ local neo_opts = {
       },
     },
   },
+
+  -- Hide cursor in neotree windows
+  event_handlers = {
+    {
+      event = "neo_tree_buffer_enter",
+      handler = function()
+        vim.cmd("highlight! Cursor blend=100")
+      end,
+    },
+    {
+      event = "neo_tree_buffer_leave",
+      handler = function()
+        vim.cmd("highlight! Cursor guibg=#5f87af blend=0")
+      end,
+    },
+  },
 }
 
-return neo_opts
+return {
+  "nvim-neo-tree/neo-tree.nvim",
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    "nvim-tree/nvim-web-devicons",
+    "MunifTanjim/nui.nvim",
+    {
+      "s1n7ax/nvim-window-picker",
+      opts = {
+        show_prompt = false,
+        hint = "floating-big-letter",
+        filter_rules = {
+          include_current_win = false,
+          autoselect_one = true,
+          -- filter using buffer options
+          bo = {
+            -- if the file type is one of following, the window will be ignored
+            filetype = { "neo-tree", "neo-tree-popup", "notify", "incline", "noice" },
+            -- if the buffer type is one of following, the window will be ignored
+            buftype = { "terminal", "quickfix" },
+          },
+        },
+      },
+    },
+  },
+  cmd = { "Neotree" },
+  opts = neo_opts,
+  keys = require("mappings").neotree,
+}

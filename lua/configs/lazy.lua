@@ -1,3 +1,4 @@
+
 local function script_path(path)
   local str = path or debug.getinfo(2, "S").source:sub(2)
   return str:match "^(.+)/[^/]+"
@@ -5,7 +6,7 @@ end
 
 return {
   defaults = { lazy = true },
-  install = { colorscheme = { "nvchad" } },
+  install = { colorscheme = { "tokyonight" } },
 
   ui = {
     icons = {
