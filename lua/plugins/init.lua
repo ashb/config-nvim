@@ -22,7 +22,10 @@ local M = {
     opts = {
       toggler = { line = "<leader>/" },
     },
-    keys = { { "<leader>/" } },
+    keys = {
+      { "<leader>/", mode = { "n" } },
+      { "<leader>/", "<Plug>(comment_toggle_linewise_visual)", mode = { "v" } },
+    },
   },
 }
 
