@@ -6,6 +6,12 @@ local M = {
     opts = {
       autoload = true,
     },
+    config = function(_, opts)
+      require("persisted").setup(opts)
+      vim.schedule(function()
+        require("telescope").load_extension "persisted"
+      end)
+    end,
   },
   {
     "stevearc/conform.nvim",
