@@ -2,7 +2,7 @@ local g = vim.g
 local o = vim.o
 local opt = vim.opt
 
-o.laststatus = 2 -- show a statusline per split
+o.laststatus = 3 -- show a global status line as we use incline for per-window status
 o.showmode = false
 
 o.clipboard = "unnamedplus"
@@ -10,7 +10,7 @@ o.cursorline = true
 o.cursorlineopt = "number"
 
 -- Set this before Noice is loaded, otherwise we can't seem to override the cursor stlying
-opt.guicursor:append("a:Cursor/lCursor")
+opt.guicursor:append "a:Cursor/lCursor"
 
 -- Indenting
 o.expandtab = true
@@ -39,7 +39,6 @@ opt.shortmess:append(
 -- Ask certain operations to confirm instead of blocking
 o.confirm = true
 
-
 -- Always keep some lines below the cursor
 o.scrolloff = 3
 
@@ -65,7 +64,7 @@ g["loaded_perl_provider"] = 0
 g["loaded_ruby_provider"] = 0
 
 -- add binaries installed by mason.nvim to path
-local is_windows = vim.fn.has("win32") ~= 0
+local is_windows = vim.fn.has "win32" ~= 0
 vim.env.PATH = vim.fn.stdpath "data" .. "/mason/bin" .. (is_windows and ";" or ":") .. vim.env.PATH
 
 -- Have vim launched from an Neovim terminal use this nvim instance as the editor
@@ -74,7 +73,11 @@ vim.env.GIT_EDITOR = "nvr --remote-tab-wait -c 'setlocal bufhidden=delete'"
 
 -- Store more stuff in sessions
 opt.sessionoptions = {
-  "buffers", "curdir", "tabpages", "winsize", "winpos",
+  "buffers",
+  "curdir",
+  "tabpages",
+  "winsize",
+  "winpos",
 }
 
 vim.diagnostic.config {

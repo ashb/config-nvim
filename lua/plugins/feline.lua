@@ -4,27 +4,6 @@ local function config(_, opts)
   local vi_mode = require "feline.providers.vi_mode"
   local feline = require "feline"
 
-  local onedark = require("onedarkpro.helpers").get_colors()
-
-  local theme = {
-    fg = onedark.fg,
-    fg2 = onedark.fg2,
-    fg3 = onedark.fg3,
-    bg = onedark.bg,
-    bg2 = onedark.bg2,
-    bg3 = onedark.bg3,
-    light_gray = onedark.light_gray,
-    blue = onedark.blue,
-    cyan = onedark.cyan,
-    green = onedark.green,
-    fg_gutter = onedark.fg_gutter,
-    yellow = onedark.yellow,
-    red = onedark.red,
-    magenta = onedark.purple,
-    white = onedark.white,
-    violet = onedark.violet,
-    skyblue = onedark.skyblue,
-  }
   local c = {
     -- left
     vim_status = {
@@ -47,10 +26,19 @@ local function config(_, opts)
     },
 
     file_name = {
-      provider = {
-        name = "file_info",
-        opts = { colored_icon = false, type = "unique" },
-      },
+      provider = function(component)
+        local ft = vim.bo.filetype
+        if vim.tbl_contains({ "help", "toggleterm", "neo-tree" }, ft) then
+          -- For these file types, show the name of the previous/alt file instead
+          local filename = vim.fn.expand "#:."
+          local icon, _ = require("nvim-web-devicons").get_icon_color(filename, nil, { default = true })
+          return string.format("%s %s", icon, filename)
+        end
+        return require("feline.providers.file").file_info(
+          component,
+          { colored_icon = false, type = "relative", file_readonly_icon = "󰌾" }
+        )
+      end,
       hl = { fg = "bg", bg = "fg3" },
       left_sep = {
         always_visible = true,
@@ -61,11 +49,11 @@ local function config(_, opts)
 
     git_branch = {
       provider = function()
-        local git = require "feline.providers.git"
-        local branch, icon = git.git_branch()
+        -- Show the branch name from the current buffer, or the CWD
+        local branch = vim.b.gitsigns_head or vim.g.gitsigns_head or ""
         local s
         if #branch > 0 then
-          s = string.format(" %s%s ", icon, branch)
+          s = string.format("  %s ", branch)
         else
           s = string.format(" %s ", "Untracked")
         end
@@ -75,7 +63,7 @@ local function config(_, opts)
       left_sep = {
         always_visible = true,
         str = string.format("%s%s", separators.block, separators.slant_right),
-        hl = { fg = "white", bg = "light_gray" },
+        hl = { fg = "fg3", bg = "light_gray" },
       },
       right_sep = {
         always_visible = true,
@@ -241,7 +229,7 @@ local function config(_, opts)
   opts.components = { active = active, inactive = inactive }
 
   feline.setup(opts)
-  feline.use_theme(theme)
+  feline.use_theme(require("colorscheme").theme)
 end
 
 local specs = {
@@ -262,8 +250,8 @@ local specs = {
       })
     end,
     opts = {
-      force_inactive = { filetypes = { "^dapui_*", "^help$", "^neotest*", "^qf$" } },
-      disable = { filetypes = { "^alpha$", "^neo%-tree$", "^trouble$" } },
+      force_inactive = { filetypes = { "^dapui_*", "^neotest*", "^qf$" } },
+      disable = { filetypes = {} },
     },
     event = "UIEnter",
   },
