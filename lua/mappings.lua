@@ -208,4 +208,15 @@ M.luasnip = {
   },
 }
 
+M.noice = {
+  {
+    "<S-Enter>",
+    function()
+      require("noice").redirect(vim.fn.getcmdline())
+    end,
+    mode = "c",
+    desc = "Redirect command to nice split",
+  },
+}
+
 return M

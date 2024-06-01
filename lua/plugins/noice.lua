@@ -70,6 +70,7 @@ return {
     "folke/noice.nvim",
     event = "VeryLazy",
     opts = opts,
+    keys = require'mappings'.noice,
     dependencies = {
       "MunifTanjim/nui.nvim",
       {
