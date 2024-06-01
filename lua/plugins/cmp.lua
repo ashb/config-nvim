@@ -1,4 +1,21 @@
--- auto completion and snippets related plugins!
+local function make_buffer_source_conditional(sources)
+  local context = require "cmp.config.context"
+  for _, s in ipairs(sources) do
+    if s.name == "buffer" then
+      local get_entries = s.get_entries
+      s.get_entries = function(self, ctx)
+        if context.in_treesitter_capture "comment" then
+          return {}
+        end
+        return get_entries(self, ctx)
+      end
+
+      return
+    end
+  end
+end
+
+-- auto completion and snippets related plugins
 return {
   {
     "hrsh7th/nvim-cmp",
@@ -28,6 +45,9 @@ return {
     opts = function()
       vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
       local cmp = require "cmp"
+
+      make_buffer_source_conditional(cmp.core.sources)
+
       local defaults = require "cmp.config.default"()
 
       local unpack = table.unpack or unpack
@@ -71,7 +91,13 @@ return {
           ),
         },
         sources = cmp.config.sources({
-          { name = "nvim_lsp" },
+          {
+            name = "nvim_lsp",
+            -- Dont suggest Text from nvm_lsp
+            entry_filter = function(entry)
+              return require("cmp").lsp.CompletionItemKind.Text ~= entry:get_kind()
+            end,
+          },
           { name = "path" },
         }, {
           { name = "buffer" },
@@ -88,11 +114,21 @@ return {
 
         formatting = {
           fields = { "kind", "abbr", "menu" },
+          -- Move the "kind" incon to the left of the item, and the source on the right hand side
           format = function(entry, vim_item)
-            local kind = require("lspkind").cmp_format { mode = "symbol_text", maxwidth = 50 }(entry, vim_item)
+            local kind = require("lspkind").cmp_format {
+              mode = "symbol_text",
+              maxwidth = 50,
+              menu = {
+                buffer = "󱋊 ",
+                nvim_lsp = " ",
+                luasnip = "󰩫 ",
+                nvim_lua = "󰢱 ",
+              },
+            }(entry, vim_item)
+
             local strings = vim.split(kind.kind, "%s", { trimempty = true })
             kind.kind = " " .. (strings[1] or "") .. " "
-            kind.menu = "    (" .. (strings[2] or "") .. ")"
 
             return kind
           end,
@@ -100,10 +136,10 @@ return {
       }
     end,
     config = function(_, opts)
-      for _, source in ipairs(opts.sources) do
-        source.group_index = source.group_index or 1
-      end
       require("cmp").setup(opts)
+
+      -- Filetype specific overrides
+      require("cmp").setup.filetype({ "gitcommit", "markdown" }, { completion = { autocomplete = false } })
     end,
   },
 
