@@ -28,9 +28,17 @@ local function config(_, opts)
     file_name = {
       provider = function(component)
         local ft = vim.bo.filetype
+        -- For these file types, show the name of the previous/alt file instead
         if vim.tbl_contains({ "help", "toggleterm", "neo-tree" }, ft) then
-          -- For these file types, show the name of the previous/alt file instead
           local filename = vim.fn.expand "#:."
+          if ft == "neo-tree" then
+            local winid = require("neo-tree").get_prior_window()
+            if winid ~= -1 then
+              local bufid = vim.api.nvim_win_get_buf(winid)
+              filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(bufid), ":.")
+            end
+          else
+          end
           local icon, _ = require("nvim-web-devicons").get_icon_color(filename, nil, { default = true })
           return string.format("%s %s", icon, filename)
         end
