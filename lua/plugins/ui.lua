@@ -62,7 +62,6 @@ local M = {
 
   {
     "folke/trouble.nvim",
-    branch = "dev", -- Try the v3 betas
     cmd = { "Trouble" },
     config = true,
     keys = require("mappings").trouble,
