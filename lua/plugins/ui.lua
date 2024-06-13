@@ -121,6 +121,18 @@ local M = {
       vim.ui.select = require("guihua.gui").select
     end,
   },
+
+  {
+    "folke/todo-comments.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    event = {"BufWinEnter"},
+    opts = {
+      keywords = {
+        -- Disable the "INFO" default alt.
+        NOTE = { alt={} },
+      }
+    }
+  },
 }
 
 return M
