@@ -9,10 +9,10 @@ end)
 
 -- Define a function to open file under cursor in an existing split
 local function open_file_in_split()
-  local file, line = "", ""
+  local file, cfile, line = "", "", ""
   -- Check if there's a file name under the cursor
-  file = vim.fn.expand "<cfile>"
-  if file == "" then
+  cfile = vim.fn.expand "<cfile>"
+  if cfile == "" then
     return
   end
   local line_content = vim.fn.getline "."
@@ -28,6 +28,23 @@ local function open_file_in_split()
   if not file then
     file, line = line_content:match "([^%s]+)%s+line%s+(%d+)"
   end
+  if not file then
+    file = cfile
+  end
+
+  local Path = require "plenary.path"
+
+  file = Path:new(file)
+  if not file:is_absolute() then
+    local focused_term = require("toggleterm.terminal").find(function(term)
+      return term:is_focused()
+    end)
+    if focused_term and focused_term.dir then
+      -- This is not perfect way of making relative path absolute, but eh.
+      file = Path:new(focused_term.dir) / file
+    end
+  end
+  file = tostring(file)
 
   -- Open the file in the existing split and go to the specified line
   vim.cmd("wincmd w | edit " .. file)
