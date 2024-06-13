@@ -11,15 +11,32 @@ require("lspconfig.configs").tilt = {
   },
 }
 
+local function on_attach(_, bufnr)
+  local mappings = require "mappings"
+  -- Remove LSP specific default keymappings
+  for _, plugin in ipairs { mappings.glances } do
+    for _, mapping in ipairs(plugin) do
+      local mode = "n"
+
+      if mapping[#mapping + 1].mode ~= nil then
+        mode = mapping[#mapping + 1].mode
+      end
+      pcall(vim.keymap.del, mode, mapping[1], { buffer = bufnr })
+    end
+  end
+end
+
 -- lsps with default config
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     capabilities = capabilities,
+    on_attach = on_attach,
   }
 end
 
 lspconfig.lua_ls.setup {
   capabilities = capabilities,
+  on_attach = on_attach,
   settings = {
     Lua = {
       -- Neovim uses LuaJit (5.1 with 5.2 backports)
@@ -45,7 +62,7 @@ lspconfig.pyright.setup {
   on_attach = function(client, bufnr)
     client.server_capabilities.documentFormattingProvider = false
 
-    -- on_attach(client, bufnr)
+    on_attach(client, bufnr)
   end,
   filetypes = { "python" },
   before_init = function(_, cfg)
@@ -71,15 +88,17 @@ lspconfig.pyright.setup {
 
 lspconfig.ruff_lsp.setup {
   capabilities = capabilities,
-  on_attach = function(_, bufnr)
+  on_attach = function(client, bufnr)
     -- Use default format expre for `gq`/`gw` etc so that I can wrap comments normally
     vim.api.nvim_set_option_value("formatexpr", "", { buf = bufnr })
+    on_attach(client, bufnr)
   end,
   filetypes = { "python" },
 }
 
 lspconfig.gopls.setup {
   capabilities = capabilities,
+  on_attach = on_attach,
   cmd = { "gopls", "serve" },
   filetypes = { "go", "gomod", "gowork", "gotmpl" },
   root_dir = lspconfig.util.root_pattern("go.work", "go.mod", ".git"),
