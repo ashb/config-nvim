@@ -219,4 +219,17 @@ M.noice = {
   },
 }
 
+M.increname = {
+  {
+    "<leader>n",
+    ":IncRename ",
+    desc = "Rename symbols",
+  },
+  {
+    "<F2>",
+    ":IncRename ",
+    desc = "Rename symbols",
+  },
+}
+
 return M

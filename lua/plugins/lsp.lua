@@ -25,7 +25,7 @@ local specs = {
     event = { "LspAttach" },
     config = function()
       require("lsp-virtual-improved").setup()
-      vim.diagnostic.config { virtual_text = false, virtual_improved = { prefix="", current_line = "hide" } }
+      vim.diagnostic.config { virtual_text = false, virtual_improved = { prefix = "", current_line = "hide" } }
     end,
   },
   -- "Peek" at impl/definition etc instead of go straight ther
@@ -34,6 +34,13 @@ local specs = {
     cmd = { "Glance" },
     opts = { border = { enable = true } },
     keys = require("mappings").glance,
+  },
+
+  {
+    "smjonas/inc-rename.nvim",
+    cmd = { "IncRename" },
+    keys = require("mappings").increname,
+    config = true,
   },
 }
 
