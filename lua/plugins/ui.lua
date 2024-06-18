@@ -75,6 +75,27 @@ local M = {
     "lewis6991/gitsigns.nvim",
     config = true,
     event = "User FilePost",
+    opts = {
+      on_attach = function(bufnr)
+        local keys = require("mappings").gitsigns
+
+        local map = vim.keymap.set
+        local function set(tbl)
+          tbl = vim.tbl_extend("keep", tbl, { buffer = bufnr })
+
+          local mode = tbl["mode"] or "n"
+          local lhs, rhs = tbl[1], tbl[2]
+          tbl["mode"] = nil
+          tbl[1] = nil
+          tbl[2] = nil
+          map(mode, lhs, rhs, tbl)
+        end
+
+        for _, k in ipairs(keys) do
+          set(k)
+        end
+      end,
+    },
   },
 
   {
@@ -125,13 +146,13 @@ local M = {
   {
     "folke/todo-comments.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
-    event = {"BufWinEnter"},
+    event = { "BufWinEnter" },
     opts = {
       keywords = {
         -- Disable the "INFO" default alt.
-        NOTE = { alt={} },
-      }
-    }
+        NOTE = { alt = {} },
+      },
+    },
   },
 }
 

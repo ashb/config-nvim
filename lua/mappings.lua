@@ -232,4 +232,10 @@ M.increname = {
   },
 }
 
+M.gitsigns = {
+  { "<leader>rh", "<CMD>Gitsigns reset_hunk<CR>", desc = "Reset Hunk" },
+  { "<leader>ph", "<CMD>Gitsigns preview_hunk<CR>", desc = "Preview Hunk" },
+  { "<leader>gb", "<CMD>Gitsigns blame_line<CR>", desc = "Blame Line" },
+}
+
 return M
