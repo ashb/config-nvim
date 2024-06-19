@@ -19,7 +19,7 @@ local function open_file_in_split()
 
   -- Try matching different patterns:
   -- file:line
-  file, line = line_content:match "([^:]+):(%d+)"
+  file, line = line_content:match "([^:%s]+):(%d+)"
   -- file @ line
   if not file then
     file, line = line_content:match "([^%s]+)%s*@%s*(%d+)"
