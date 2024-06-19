@@ -57,7 +57,7 @@ lspconfig.lua_ls.setup {
   },
 }
 
-lspconfig.pyright.setup {
+lspconfig.basedpyright.setup {
   capabilities = capabilities,
   on_attach = function(client, bufnr)
     client.server_capabilities.documentFormattingProvider = false
@@ -70,16 +70,18 @@ lspconfig.pyright.setup {
     local root = cfg.root_dir:gsub("/", Path.path.sep)
     local venv = Path:new(root, ".venv")
     local poetry_lock = Path:new(root, "poetry.lock")
+
+    local pySettings = cfg.settings.basedpyright
     if poetry_lock:is_file() then
-      cfg.settings.python.pythonPath = vim.fn.system({ "poetry", "env", "info", "--executable" }):gsub("\n$", "")
+      pySettings.pythonPath = vim.fn.system({ "poetry", "env", "info", "--executable" }):gsub("\n$", "")
     elseif venv:joinpath("bin"):is_dir() then
-      cfg.settings.python.pythonPath = tostring(venv:joinpath("bin", "python"))
+      pySettings.pythonPath = tostring(venv:joinpath("bin", "python"))
     else
-      cfg.settings.python.pythonPath = tostring(venv:joinpath("Scripts", "python.exe"))
+      pySettings.pythonPath = tostring(venv:joinpath("Scripts", "python.exe"))
     end
   end,
   settings = {
-    pyright = {
+    basedpyright = {
       -- Using Ruff's import organizer
       disableOrganizeImports = true,
     },
