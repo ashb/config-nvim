@@ -222,7 +222,10 @@ M.noice = {
 M.increname = {
   {
     "<leader>n",
-    ":IncRename ",
+    function()
+      return ":IncRename " .. vim.fn.expand "<cword>"
+    end,
+    expr = true,
     desc = "Rename symbols",
   },
   {
