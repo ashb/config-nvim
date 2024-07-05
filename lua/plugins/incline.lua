@@ -1,3 +1,7 @@
+-- FLoating status windows in top-right of each split
+--
+-- I like the way default splits show up in neovim, but I want a little indication of what file is open in each split.
+
 local colorscheme = require "colorscheme"
 local opts = {
   window = {

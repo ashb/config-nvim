@@ -1,3 +1,5 @@
+-- File explorer/tree in the side bar. <C-n> to activate
+
 vim.g.neo_tree_remove_legacy_commands = 1
 
 local neo_opts = {

@@ -1,3 +1,4 @@
+-- adds indentation guides (i.e. show a vertical "gutter"/bar to visually join up indents
 return {
   "lukas-reineke/indent-blankline.nvim",
   main = "ibl",

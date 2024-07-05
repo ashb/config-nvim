@@ -1,3 +1,6 @@
+-- The goal of nvim-ufo is to make Neovim's fold look modern and keep high performance.
+--
+-- Key thing I have here is <S-k> to peek at the currently closed fold.
 local M = {}
 
 -- To show number of folded lines
@@ -46,6 +49,7 @@ return {
   dependencies = {
     { "kevinhwang91/promise-async" },
     {
+      -- Clickable status column handlers
       "luukvbaal/statuscol.nvim",
       config = function()
         local builtin = require("statuscol.builtin")

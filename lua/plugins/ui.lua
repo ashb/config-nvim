@@ -7,6 +7,7 @@
 local M = {
 
   {
+    -- Color each delimiter different. Useful to find matching open/close bracket/brace/parenthesis etc when there are many
     "https://gitlab.com/HiPhish/rainbow-delimiters.nvim.git",
     config = true,
     main = "rainbow-delimiters.setup",
@@ -14,21 +15,6 @@ local M = {
     dependencies = {
       "olimorris/onedarkpro.nvim",
     },
-  },
-  {
-    "kylechui/nvim-surround",
-    version = "*",
-    keys = {
-      { "ys", desc = "Surround Add a surrounding pair around a motion" },
-      { "yS", desc = "Surround Add a surrounding pair around a motion, on new lines" },
-      { "yss", desc = "Surround Add a surrounding pair around current lines" },
-      { "ds", desc = "Surround Delete surrounding pair" },
-      { "cs", desc = "Surround Change surrounding pair" },
-      { "cS", desc = "Surround Change a surrounding pair, putting replacements on new lines" },
-      { "S", desc = "Surround Add a surrounding pair around a visual selection", mode = "v" },
-      { "gS", desc = "Surround Add a surrounding pair around a visual selection, on new lines", mode = "v" },
-    },
-    config = true,
   },
   {
     "akinsho/bufferline.nvim",
@@ -58,6 +44,8 @@ local M = {
     keys = require("mappings").bufdelete,
   },
   { "tiagovla/scope.nvim", event = "UIEnter", cmd = { "ScopeMoveBuf" }, config = true },
+
+  -- Scope breadcumbs at the top of the split -- current class, function etc.
   { "Bekaboo/dropbar.nvim", event = "BufWinEnter", config = true },
 
   {

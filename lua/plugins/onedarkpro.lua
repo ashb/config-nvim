@@ -1,3 +1,4 @@
+-- Colorscheme
 return {
   {
     "olimorris/onedarkpro.nvim",

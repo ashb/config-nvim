@@ -1,3 +1,8 @@
+-- auto completion and snippets related plugins
+--
+-- This gives LSP configs, plus customizations to the display
+--
+
 local function make_buffer_source_conditional(sources)
   local context = require "cmp.config.context"
   for _, s in ipairs(sources) do
@@ -15,7 +20,6 @@ local function make_buffer_source_conditional(sources)
   end
 end
 
--- auto completion and snippets related plugins
 return {
   {
     "hrsh7th/nvim-cmp",

@@ -1,3 +1,8 @@
+-- TreeSitter is the language/grammar support -- aka syntax highlighting.
+--
+-- It is better than the native/built language support as it's shared across many editors, and it doesn't use regexes to parse!
+
+
 return {
   {
     "nvim-treesitter/nvim-treesitter",

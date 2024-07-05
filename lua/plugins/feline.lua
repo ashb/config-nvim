@@ -1,3 +1,6 @@
+-- Customized status bar at bottom of main window
+
+
 local function config(_, opts)
   local separators = require("feline.defaults").statusline.separators.default_value
   local file = require "feline.providers.file"
