@@ -14,8 +14,8 @@ return {
       "debugpy",
       "ruff",
 
-      -- typescript
-      -- "typescript-language-server", -- installed via nix
+      -- js/typescript
+      "vtsls",
 
       -- rust
       -- "rust-analyzer", -- use rust-up for thisx

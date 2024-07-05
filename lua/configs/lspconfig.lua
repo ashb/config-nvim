@@ -1,5 +1,5 @@
 local lspconfig = require "lspconfig"
-local servers = { "tsserver", "ccls", "rust_analyzer", "tilt" }
+local servers = { "ccls", "rust_analyzer", "tilt" }
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
@@ -115,4 +115,10 @@ lspconfig.gopls.setup {
       gofumpt = true,
     },
   },
+}
+
+lspconfig.tsserver.setup {
+  cmd = { "vtsls", "--stdio" },
+  capabilities = capabilities,
+  on_attach = on_attach,
 }
