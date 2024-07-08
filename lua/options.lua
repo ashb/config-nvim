@@ -55,6 +55,13 @@ o.updatetime = 250
 -- when cursor reaches end/beginning of line
 opt.whichwrap:append "<>[]hl"
 
+-- Show trailing space characters visually
+o.list = true
+opt.listchars = {
+  trail = "•",
+  tab = "󰌒 ",
+}
+
 -- g.mapleader = " "
 
 -- disable some default providers
