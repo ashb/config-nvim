@@ -71,13 +71,17 @@ lspconfig.basedpyright.setup {
     local venv = Path:new(root, ".venv")
     local poetry_lock = Path:new(root, "poetry.lock")
 
-    local pySettings = cfg.settings.basedpyright
+    local pythonPath
     if poetry_lock:is_file() then
-      pySettings.pythonPath = vim.fn.system({ "poetry", "env", "info", "--executable" }):gsub("\n$", "")
+      pythonPath = vim.fn.system({ "poetry", "env", "info", "--executable" }):gsub("\n$", "")
     elseif venv:joinpath("bin"):is_dir() then
-      pySettings.pythonPath = tostring(venv:joinpath("bin", "python"))
+      pythonPath = tostring(venv:joinpath("bin", "python"))
     else
-      pySettings.pythonPath = tostring(venv:joinpath("Scripts", "python.exe"))
+      pythonPath = tostring(venv:joinpath("Scripts", "python.exe"))
+    end
+
+    if pythonPath then
+      cfg.settings.python = {pythonPath = pythonPath}
     end
   end,
   settings = {
