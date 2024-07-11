@@ -20,6 +20,9 @@ local neo_opts = {
         ".github",
         ".circleci",
       },
+      never_show = {
+        "__pycache__",
+      },
     },
     window = {
       mappings = {
