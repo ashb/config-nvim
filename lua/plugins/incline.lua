@@ -19,7 +19,7 @@ local log
 
 ---@param props InclineRenderProps
 local function getGitDiff(props)
-  local icons = { removed = "", changed = "", added = "" }
+  local icons = { removed = " ", changed = " ", added = " " }
   icons["changed"] = icons.modified
   local signs = vim.b[props.buf].gitsigns_status_dict
   local labels = {}
