@@ -1,5 +1,5 @@
 local lspconfig = require "lspconfig"
-local servers = { "ccls", "rust_analyzer", "tilt" }
+local servers = { "ccls", "rust_analyzer", "tilt", "nil_ls" }
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 

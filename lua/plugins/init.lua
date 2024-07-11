@@ -20,6 +20,15 @@ local M = {
     opts = {
       formatters_by_ft = {
         lua = { "stylua" },
+        nix = { "nix" },
+      },
+      formatters = {
+        nix = {
+          inherit = false,
+          stdin = false,
+          command = "nix",
+          args = { "fmt", "$FILENAME" },
+        },
       },
       format_on_save = { timeout_ms = 500, lsp_fallback = true },
     },
