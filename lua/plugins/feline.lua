@@ -1,5 +1,21 @@
 -- Customized status bar at bottom of main window
 
+-- For the `v:lua.` to work, it either needs to be a lua global, or `require`. For brevity I've gone with global
+FelineClickHandlers = {
+  Lazy = function()
+    vim.cmd.Lazy()
+  end,
+  Git = function()
+    vim.cmd.Telescope "git_branches"
+  end,
+  Cursor = function()
+    vim.o.relativenumber = not vim.o.relativenumber
+  end,
+  Autoformat = function()
+    vim.b.disable_autoformat = not vim.b.disable_autoformat
+    vim.cmd.redrawstatus()
+  end,
+}
 
 local function config(_, opts)
   local separators = require("feline.defaults").statusline.separators.default_value
@@ -7,18 +23,22 @@ local function config(_, opts)
   local vi_mode = require "feline.providers.vi_mode"
   local feline = require "feline"
 
+  -- Status bar click handlers need to be _Vim_ functions, not lua ones
+  vim.cmd [[
+    function! _ClickStatusBar(minwid, clicks, button, mods)
+      Lazy
+    endfunction
+  ]]
+
   local c = {
     -- left
     vim_status = {
       provider = function()
-        local s
         if require("lazy.status").has_updates() then
-          s = require("lazy.status").updates()
+          return "%0@v:lua.FelineClickHandlers.Lazy@ " .. require("lazy.status").updates() .. " %X"
         else
-          s = ""
+          return "  "
         end
-        s = string.format(" %s ", s)
-        return s
       end,
       hl = { fg = "bg", bg = "skyblue" },
       right_sep = {
@@ -32,7 +52,7 @@ local function config(_, opts)
       provider = function(component)
         local ft = vim.bo.filetype
         -- For these file types, show the name of the previous/alt file instead
-        if vim.tbl_contains({ "help", "toggleterm", "neo-tree" }, ft) then
+        if vim.tbl_contains({ "help", "toggleterm", "neo-tree", "TelescopePrompt" }, ft) then
           local filename = vim.fn.expand "#:."
           if ft == "neo-tree" then
             local winid = require("neo-tree").get_prior_window()
@@ -53,8 +73,41 @@ local function config(_, opts)
       hl = { fg = "bg", bg = "fg3" },
       left_sep = {
         always_visible = true,
-        str = string.format("%s ", separators.slant_right),
+        str = separators.slant_right,
         hl = { fg = "bg", bg = "fg3" },
+      },
+      right_sep = {
+        always_visible = true,
+        str = separators.slant_right,
+        hl = { fg = "fg3", bg = "bg" },
+      },
+    },
+
+    autoformat = {
+
+      -- Show if conform is autoformattting the buffer or not
+      provider = function()
+        local icon = vim.b.disable_autoformat and "󰉥" or "󰉿"
+        return "%0@v:lua.FelineClickHandlers.Autoformat@" .. icon .. "%X"
+      end,
+
+      hl = function()
+        local hl = { fg = "base08", bg = "base01" }
+        if not vim.b.disable_autoformat then
+          local color = require "colorscheme"
+          hl.fg = color.darker(color.theme.green, 10)
+        end
+        return hl
+      end,
+      left_sep = {
+        always_visible = true,
+        str = separators.slant_right,
+        hl = { fg = "bg", bg = "base01" },
+      },
+      right_sep = {
+        always_visible = true,
+        str = separators.slant_right,
+        hl = { fg = "base01", bg = "bg" },
       },
     },
 
@@ -64,7 +117,7 @@ local function config(_, opts)
         local branch = vim.b.gitsigns_head or vim.g.gitsigns_head or ""
         local s
         if #branch > 0 then
-          s = string.format("  %s ", branch)
+          s = string.format("%%0@v:lua.FelineClickHandlers.Git@  %s %%X", branch)
         else
           s = string.format(" %s ", "Untracked")
         end
@@ -73,8 +126,8 @@ local function config(_, opts)
       hl = { fg = "bg", bg = "light_gray" },
       left_sep = {
         always_visible = true,
-        str = string.format("%s%s", separators.block, separators.slant_right),
-        hl = { fg = "fg3", bg = "light_gray" },
+        str = separators.slant_right,
+        hl = { fg = "bg", bg = "light_gray" },
       },
       right_sep = {
         always_visible = true,
@@ -163,8 +216,7 @@ local function config(_, opts)
       provider = {
         name = "position",
         opts = {
-          padding = true,
-          format = "{line} {col}",
+          format = "%0@v:lua.FelineClickHandlers.Cursor@{line} {col}%X",
         },
       },
       hl = { fg = "bg", bg = "blue" },
@@ -217,6 +269,7 @@ local function config(_, opts)
     { -- left
       c.vim_status,
       c.file_name,
+      c.autoformat,
       c.git_branch,
       c.lsp,
     },
