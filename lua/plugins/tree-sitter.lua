@@ -25,6 +25,8 @@ return {
 
         "python",
         "go",
+        "gomod",
+        "gosum",
         "rust",
         "yaml",
         "just",
