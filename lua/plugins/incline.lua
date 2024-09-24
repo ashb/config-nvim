@@ -8,9 +8,12 @@ local opts = {
     margin = { horizontal = 0 },
     padding = 0,
   },
+  -- https://github.com/b0o/incline.nvim/issues/69
+  debounce_threshold = {
+    falling = 75,
+    rising = 75,
+  },
 }
-
-local log
 
 ---@class InclineRenderProps
 ---@field buf number
