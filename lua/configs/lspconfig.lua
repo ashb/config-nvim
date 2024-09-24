@@ -81,13 +81,30 @@ lspconfig.basedpyright.setup {
     end
 
     if pythonPath then
-      cfg.settings.python = {pythonPath = pythonPath}
+      cfg.settings.python = { pythonPath = pythonPath }
     end
   end,
   settings = {
     basedpyright = {
       -- Using Ruff's import organizer
       disableOrganizeImports = true,
+      analysis = {
+        diagnosticSeverityOverrides = {
+          -- We also have ruff reporting this as F401
+          reportUnusedImport = false,
+          reportUnreachable = "error",
+          reportAny = false,
+          reportImplicitOverride = false,
+          reportUnknownVariableType = false,
+          reportUninitializedInstanceVariable = false,
+          reportMissingTypeArgument = false, -- Don't complain about `list` usage in types etc.
+          reportUnknownParameterType = false, -- ditto
+          reportUnknownArgumentType = "info",
+          reportDeprecated = false,
+          reportUnnecessaryIsInstance= false, -- `isinstance()` inside a typed is type-time vs runtime check
+          reportUnusedCallResult = false, -- Too many python functions return values and it's common to not use them
+        },
+      },
     },
   },
 }
