@@ -138,8 +138,7 @@ lspconfig.gopls.setup {
   },
 }
 
-lspconfig.tsserver.setup {
-  cmd = { "vtsls", "--stdio" },
+lspconfig.vtsls.setup {
   capabilities = capabilities,
   on_attach = on_attach,
 }
