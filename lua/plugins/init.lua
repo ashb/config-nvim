@@ -6,6 +6,13 @@ local M = {
     lazy = false, -- make sure the plugin is always loaded at startup
     opts = {
       autoload = true,
+      should_save = function()
+        -- Do not save the session for these filetypes
+        if vim.bo.filetype == "gitcommit" then
+          return false
+        end
+        return true
+      end,
     },
     config = function(_, opts)
       require("persisted").setup(opts)
