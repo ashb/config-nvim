@@ -33,6 +33,22 @@ map("n", "cos", "<cmd>setl spell!<CR>", { desc = "Toggle spelling" })
 
 map("n", "<leader><leader>x", "<cmd>source %<CR>", { desc = "Execute the current file" })
 
+-- Profling
+map("n", "<leader>up", "<nop>", { desc = "Perf Profling" })
+map("n", "<leader>ups", function()
+  vim.cmd [[
+        :profile start /tmp/nvim-profile.log
+        :profile func *
+        :profile file *
+      ]]
+end, { desc = "Profile Start" })
+map("n", "<leader>upe", function()
+  vim.cmd [[
+        :profile stop
+        :e /tmp/nvim-profile.log
+      ]]
+end, { desc = "Profile End" })
+
 local M = {}
 
 -- Focus the existing non-floating neotree, or else show one
