@@ -43,7 +43,16 @@ local M = {
     cmd = { "Bdelete", "Bwipeout" },
     keys = require("mappings").bufdelete,
   },
-  { "tiagovla/scope.nvim", event = "UIEnter", cmd = { "ScopeMoveBuf" }, config = true },
+  -- Pet tab next/previous history
+  {
+    "tiagovla/scope.nvim",
+    event = "UIEnter",
+    cmd = { "ScopeMoveBuf" },
+    config = function()
+      require("scope").setup()
+      require("telescope").load_extension "scope"
+    end,
+  },
 
   -- Scope breadcumbs at the top of the split -- current class, function etc.
   { "Bekaboo/dropbar.nvim", event = "BufWinEnter", config = true },
