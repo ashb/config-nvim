@@ -114,6 +114,9 @@ lspconfig.basedpyright.setup {
           reportDeprecated = false,
           reportUnnecessaryIsInstance= false, -- `isinstance()` inside a typed is type-time vs runtime check
           reportUnusedCallResult = false, -- Too many python functions return values and it's common to not use them
+          reportImplicitStringConcatenation = false, -- Let ruff deal with this
+          reportMissingImports = "unused", -- Make these lower priority
+          reportImportCycles = false, -- Too noisy, imports are due to `if TYPE_CHECKING`, not runtime cycles.
         },
       },
     },
@@ -123,9 +126,9 @@ lspconfig.basedpyright.setup {
 lspconfig.ruff_lsp.setup {
   capabilities = capabilities,
   on_attach = function(client, bufnr)
-    -- Use default format expre for `gq`/`gw` etc so that I can wrap comments normally
-    vim.api.nvim_set_option_value("formatexpr", "", { buf = bufnr })
     on_attach(client, bufnr)
+    -- Use default format expre for `gq`/`gw` etc so that I can wrap comments normally
+    vim.bo[bufnr].formatexpr = nil
   end,
   filetypes = { "python" },
 }
