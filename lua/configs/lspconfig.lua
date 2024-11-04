@@ -12,6 +12,17 @@ require("lspconfig.configs").tilt = {
 }
 
 local function on_attach(_, bufnr)
+
+  vim.diagnostic.config {
+    signs = {
+      text = {
+        [vim.diagnostic.severity.ERROR] = "󰅙",
+        [vim.diagnostic.severity.WARN] = "",
+        [vim.diagnostic.severity.INFO] = "󰋼",
+        [vim.diagnostic.severity.HINT] = "󰌵",
+      },
+    },
+  }
   local mappings = require "mappings"
   -- Remove LSP specific default keymappings
   for _, plugin in ipairs { mappings.glances } do
