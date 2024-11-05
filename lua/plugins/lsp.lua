@@ -13,7 +13,10 @@ local specs = {
   {
     "dnlhc/glance.nvim",
     cmd = { "Glance" },
-    opts = { border = { enable = true } },
+    opts = {
+      border = { enable = true },
+      use_trouble_qf = true,
+    },
     keys = require("mappings").glance,
   },
 
