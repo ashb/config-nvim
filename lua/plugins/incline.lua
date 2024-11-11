@@ -2,7 +2,7 @@
 --
 -- I like the way default splits show up in neovim, but I want a little indication of what file is open in each split.
 
-local colorscheme = require "colorscheme"
+local colorscheme = require "_local/colorscheme"
 local opts = {
   window = {
     margin = { horizontal = 0 },

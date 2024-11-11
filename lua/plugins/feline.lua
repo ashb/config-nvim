@@ -94,7 +94,7 @@ local function config(_, opts)
       hl = function()
         local hl = { fg = "base08", bg = "base01" }
         if not vim.b.disable_autoformat then
-          local color = require "colorscheme"
+          local color = require "_local/colorscheme"
           hl.fg = color.darker(color.theme.green, 10)
         end
         return hl
@@ -293,7 +293,7 @@ local function config(_, opts)
   opts.components = { active = active, inactive = inactive }
 
   feline.setup(opts)
-  feline.use_theme(require("colorscheme").theme)
+  feline.use_theme(require("_local/colorscheme").theme)
 end
 
 local specs = {
