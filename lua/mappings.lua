@@ -79,7 +79,7 @@ local function FocusOrShowNeotree()
 end
 
 M.neotree = {
-  { "<C-n>", FocusOrShowNeotree, { desc = "NeoTree Show" } },
+  { "<C-n>", FocusOrShowNeotree, desc = "NeoTree Show" },
 }
 
 local function PeekFoldOrShowLSPHover()
@@ -92,7 +92,7 @@ end
 M.lsp = {
   { "K", PeekFoldOrShowLSPHover, desc = "LSP Peek Fold/hover information" },
   { "<leader>ca", vim.lsp.buf.code_action, desc = "LSP Code Actions" },
-  { "gd", vim.lsp.buf.definition, { desc = "Go to definition" } },
+  { "gd", vim.lsp.buf.definition, desc = "Go to definition" },
 }
 
 M.ufo = {
@@ -101,37 +101,36 @@ M.ufo = {
     function()
       require("ufo").openAllFolds()
     end,
-    { desc = "Folds Open All Folds" },
+    desc = "Folds Open All Folds",
   },
   {
     "zM",
     function()
       require("ufo").closeAllFolds()
     end,
-    { desc = "Folds Close All Folds" },
+    desc = "Folds Close All Folds",
   },
 }
 
 M.telescope = {
-  { "<leader>fw", "<cmd>Telescope live_grep<CR>", { desc = "telescope live grep" } },
-  { "<leader>fb", "<cmd>Telescope buffers<CR>", { desc = "telescope find buffers" } },
-  { "<leader>fh", "<cmd>Telescope help_tags<CR>", { desc = "telescope help page" } },
-  { "<leader>ma", "<cmd>Telescope marks<CR>", { desc = "telescope find marks" } },
-  { "<leader>fo", "<cmd>Telescope oldfiles only_cwd=true<CR>", { desc = "telescope find oldfiles" } },
-  { "<leader>fz", "<cmd>Telescope current_buffer_fuzzy_find<CR>", { desc = "telescope find in current buffer" } },
-  { "<leader>cm", "<cmd>Telescope git_commits<CR>", { desc = "telescope git commits" } },
-  { "<leader>gt", "<cmd>Telescope git_status<CR>", { desc = "telescope git status" } },
-  { "<leader>pt", "<cmd>Telescope terms<CR>", { desc = "telescope pick hidden term" } },
-  { "<leader>th", "<cmd>Telescope themes<CR>", { desc = "telescope nvchad themes" } },
-  { "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "telescope find files" } },
+  { "<leader>fw", "<cmd>Telescope live_grep<CR>", desc = "Telescope live grep" },
+  { "<leader>fb", "<cmd>Telescope buffers<CR>", desc = "Telescope find buffers" },
+  { "<leader>fh", "<cmd>Telescope help_tags<CR>", desc = "Telescope help page" },
+  { "<leader>ma", "<cmd>Telescope marks<CR>", desc = "Telescope find marks" },
+  { "<leader>fo", "<cmd>Telescope oldfiles only_cwd=true<CR>", desc = "Telescope find oldfiles" },
+  { "<leader>fz", "<cmd>Telescope current_buffer_fuzzy_find<CR>", desc = "Telescope find in current buffer" },
+  { "<leader>cm", "<cmd>Telescope git_commits<CR>", desc = "Telescope git commits" },
+  { "<leader>gt", "<cmd>Telescope git_status<CR>", desc = "Telescope git status" },
+  { "<leader>pt", "<cmd>Telescope terms<CR>", desc = "Telescope pick hidden term" },
+  { "<leader>th", "<cmd>Telescope themes<CR>", desc = "Telescope nvchad themes" },
   {
     "<leader>fa",
     "<cmd>Telescope find_files follow=true no_ignore=true hidden=true<CR>",
-    { desc = "telescope find all files" },
+    desc = "Telescope find all files",
   },
 
-  { "<C-p>", "<cmd>Telescope find_files<CR>", { desc = "Telescope Find files in project" } },
-  { "<leader>r", "<cmd>Telescope resume<CR>", { desc = "Telescope Resume last telescope" } },
+  { "<C-p>", "<cmd>Telescope find_files<CR>", desc = "Telescope Find files in project" },
+  { "<leader>r", "<cmd>Telescope resume<CR>", desc = "Telescope Resume last telescope" },
 }
 
 M.conform = {
@@ -140,7 +139,7 @@ M.conform = {
     function()
       require("conform").format { async = true, lsp_fallback = true }
     end,
-    { desc = "format files" },
+    desc = "format files",
   },
 }
 
@@ -165,14 +164,14 @@ M.toggleterm = {
 }
 
 M.bufdelete = {
-  { "<leader>x", "<cmd>Bwipeout<CR>", { desc = "Clsoe buffer" } },
+  { "<leader>x", "<cmd>Bwipeout<CR>", desc = "Clsoe buffer" },
 }
 
 M.glance = {
-  { "gr", "<CMD>Glance references<CR>", { desc = "Glance at references" } },
-  { "gi", "<CMD>Glance implementations<CR>", { desc = "Glance at implementations" } },
-  { "gD", "<CMD>Glance definitions<CR>", { desc = "Glance definition" } },
-  { "<space>D", "<CMD>Glance type_definitions<CR>", { desc = "Glance type definition" } },
+  { "gr", "<CMD>Glance references<CR>", desc = "Glance at references" },
+  { "gi", "<CMD>Glance implementations<CR>", desc = "Glance at implementations" },
+  { "gD", "<CMD>Glance definitions<CR>", desc = "Glance definition" },
+  { "<space>D", "<CMD>Glance type_definitions<CR>", desc = "Glance type definition" },
 }
 
 M.trouble = {
