@@ -12,7 +12,6 @@ require("lspconfig.configs").tilt = {
 }
 
 local function on_attach(_, bufnr)
-
   vim.diagnostic.config {
     signs = {
       text = {
@@ -123,7 +122,7 @@ lspconfig.basedpyright.setup {
   },
 }
 
-lspconfig.ruff_lsp.setup {
+lspconfig.ruff.setup {
   capabilities = capabilities,
   on_attach = function(client, bufnr)
     on_attach(client, bufnr)
