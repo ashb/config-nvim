@@ -92,7 +92,6 @@ end
 M.lsp = {
   { "K", PeekFoldOrShowLSPHover, desc = "LSP Peek Fold/hover information" },
   { "<leader>ca", vim.lsp.buf.code_action, desc = "LSP Code Actions" },
-  { "gd", vim.lsp.buf.definition, desc = "Go to definition" },
 }
 
 M.ufo = {
@@ -171,6 +170,24 @@ M.glance = {
   { "gr", "<CMD>Glance references<CR>", desc = "Glance at references" },
   { "gi", "<CMD>Glance implementations<CR>", desc = "Glance at implementations" },
   { "gD", "<CMD>Glance definitions<CR>", desc = "Glance definition" },
+  {
+    "gd",
+    function()
+      -- Go to definition if one, show glances window if multiple
+      require("glance").open("definitions", {
+        hooks = {
+          before_open = function(results, open, jump)
+            if #results == 1 then
+              jump(results[1]) -- argument is optional
+            else
+              open(results) -- argument is optional
+            end
+          end,
+        },
+      })
+    end,
+    desc = "Go to defitinion",
+  },
   { "<space>D", "<CMD>Glance type_definitions<CR>", desc = "Glance type definition" },
 }
 
