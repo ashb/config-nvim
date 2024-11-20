@@ -67,6 +67,8 @@ lspconfig.lua_ls.setup {
   },
 }
 
+local root_pyproject_func = require("lspconfig.util").root_pattern "pyproject.toml"
+
 lspconfig.basedpyright.setup {
   capabilities = capabilities,
   on_attach = function(client, bufnr)
@@ -74,34 +76,62 @@ lspconfig.basedpyright.setup {
 
     on_attach(client, bufnr)
   end,
+  single_file_support = true,
+  root_dir = function(fname)
+    return root_pyproject_func(fname) or vim.fn.getcwd()
+  end,
   filetypes = { "python" },
-  before_init = function(_, cfg)
-    local Path = require "plenary.path"
-    local root = cfg.root_dir:gsub("/", Path.path.sep)
-    local venv = Path:new(root, ".venv")
-    local poetry_lock = Path:new(root, "poetry.lock")
-
-    local pythonPath
-    if poetry_lock:is_file() then
-      pythonPath = vim.fn.system({ "poetry", "env", "info", "--executable" }):gsub("\n$", "")
-    elseif venv:joinpath("bin"):is_dir() then
-      pythonPath = tostring(venv:joinpath("bin", "python"))
+  on_init = function(client, _)
+    if root_pyproject_func(vim.fn.getcwd()) then
+      -- nothing
     else
-      pythonPath = tostring(venv:joinpath("Scripts", "python.exe"))
+      print "No pyproject: basedpyright linter disabled"
+      require("_local.python_support").silence_basedpyright()
     end
 
-    if pythonPath then
-      cfg.settings.python = { pythonPath = pythonPath }
+    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+      virtual_text = {
+        -- Don't show hint as virtual text, reportUnusedParam from basedpyright is too noisy
+        severity = { min = vim.diagnostic.severity.INFO },
+      },
+    })
+  end,
+
+  -- For basedpyright to pick up the right python environment, we want to set settings.python.pythonPath  to the
+  -- path to the current python executable (in the virtual environment) when the lsp activates for a project.
+  -- NOTE: that if you set venv this overrides pythonPath and it doesn't work, I think, - venv must not be set
+  -- in pyproject.toml or pyrightconfig.json
+  on_new_config = function(new_config, new_root_dir)
+    -- configure basedpyright's python.pythonPath to be the python executable path for the environment
+    local root = root_pyproject_func(new_root_dir)
+    if root then
+      --
+      local success, py_path = pcall(function()
+        local pysupport = require "_local.python_support"
+        return pysupport.get_local_python_location(new_root_dir)
+      end)
+      if success and py_path then
+        new_config.settings.python.pythonPath = py_path
+        -- note, one could set extraPaths instead, but those are counted as 'in' the project
+      end
+      if not success then
+        vim.notify("Error: " .. tostring(py_path), vim.log.levels.WARN)
+      end
+    else
+      -- pass
     end
   end,
   settings = {
+    python = {},
     basedpyright = {
-      -- Using Ruff's import organizer
-      disableOrganizeImports = true,
+      disableOrganizeImports = true, -- Using Ruff's import organizer
       analysis = {
+        typeCheckingMode = "standard",
+
         diagnosticSeverityOverrides = {
-          -- We also have ruff reporting this as F401
-          reportUnusedImport = false,
+          reportUnusedImport = false, -- We also have ruff reporting this as F401
+          reportUndefinedVariable = false, -- F821
+          reportUnusedVariable = false, -- Ditto as F841
           reportUnreachable = "error",
           reportAny = false,
           reportImplicitOverride = false,
@@ -111,7 +141,7 @@ lspconfig.basedpyright.setup {
           reportUnknownParameterType = false, -- ditto
           reportUnknownArgumentType = "info",
           reportDeprecated = false,
-          reportUnnecessaryIsInstance= false, -- `isinstance()` inside a typed is type-time vs runtime check
+          reportUnnecessaryIsInstance = false, -- `isinstance()` inside a typed is type-time vs runtime check
           reportUnusedCallResult = false, -- Too many python functions return values and it's common to not use them
           reportImplicitStringConcatenation = false, -- Let ruff deal with this
           reportMissingImports = "unused", -- Make these lower priority
