@@ -1,3 +1,16 @@
+local function select_pick_window(prompt_bufnr)
+  local actions_set = require "telescope.actions.set"
+  local action_state = require "telescope.actions.state"
+
+  local picker = action_state.get_current_picker(prompt_bufnr)
+
+  -- Override the picker
+  picker.get_selection_window = function()
+    return require("window-picker").pick_window { filter_rules = { include_current_win = true } }
+  end
+  actions_set.edit(prompt_bufnr, "edit")
+end
+
 return {
   {
     "nvim-telescope/telescope.nvim",
@@ -26,6 +39,12 @@ return {
           width = 0.87,
           height = 0.80,
           preview_cutoff = 120,
+        },
+
+        mappings = {
+          i = {
+            ["<C-w>"] = select_pick_window,
+          },
         },
       },
       pickers = {
