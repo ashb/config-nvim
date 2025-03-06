@@ -55,7 +55,13 @@ local opts = {
           {
             event = "msg_show",
             kind = "",
-            find = "^%d change; before #%d;",
+            find = "^%d change; before #%d",
+          },
+          -- JDTLS (Java Lang server) is very chatty!
+          {
+            event = "lsp",
+            kind = "progress",
+            find = "jdtls",
           },
         },
       },
@@ -70,7 +76,7 @@ return {
     "folke/noice.nvim",
     event = "VeryLazy",
     opts = opts,
-    keys = require'mappings'.noice,
+    keys = require("mappings").noice,
     dependencies = {
       "MunifTanjim/nui.nvim",
       {

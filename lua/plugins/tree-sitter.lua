@@ -38,7 +38,8 @@ return {
         "typescript",
         -- "tsx",
         "json",
-        --
+
+        "java",
       },
     },
     dependencies = {

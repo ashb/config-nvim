@@ -44,6 +44,14 @@ for _, lsp in ipairs(servers) do
   }
 end
 
+lspconfig.jdtls.setup {
+
+  capabilities = capabilities,
+  on_attach = on_attach,
+  filetypes = { "java", "gradle" },
+  root_dir = lspconfig.util.root_pattern("gradlew", ".git", "mvnw"),
+}
+
 lspconfig.lua_ls.setup {
   capabilities = capabilities,
   on_attach = on_attach,
