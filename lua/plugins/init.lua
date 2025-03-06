@@ -46,6 +46,7 @@ local M = {
       end,
     },
     keys = require("mappings").conform,
+    cmd = { "ConformInfo" },
   },
   {
     -- Quickly toggle comments on lines/blocks

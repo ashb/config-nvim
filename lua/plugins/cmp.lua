@@ -71,6 +71,7 @@ return {
           col_offset = -3,
           side_padding = 0,
           completeopt = "menu,menuone,noinsert",
+          keyword_length=1,
         },
         mapping = cmp.mapping.preset.insert {
           ["<C-n>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },

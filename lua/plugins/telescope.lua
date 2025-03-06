@@ -43,7 +43,7 @@ return {
 
         mappings = {
           i = {
-            ["<C-w>"] = select_pick_window,
+            ["<S-CR>"] = select_pick_window,
           },
         },
       },
