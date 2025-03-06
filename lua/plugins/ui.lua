@@ -60,7 +60,28 @@ local M = {
   {
     "folke/trouble.nvim",
     cmd = { "Trouble" },
-    config = true,
+    opts = {
+      modes = {
+        lsp_document_symbols = {
+          win = {
+            type = "float",
+            relative = "cursor",
+            anchor = "NW",
+            position = { 0, 0 },
+            border = "rounded",
+            size = { width = 0.3, height = 0.3 },
+          },
+          pinned = true,
+          filter = {
+            ["not"] = { kind = "variable" },
+          },
+          keys = {
+            ["<cr>"] = "jump_close",
+            ["<esc>"] = "close",
+          },
+        },
+      },
+    },
     keys = require("mappings").trouble,
   },
   {
