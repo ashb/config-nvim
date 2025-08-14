@@ -2,24 +2,11 @@
 local M = {
   {
     -- Re-open the workspace based on current dir etc when running `nvim`
-    "olimorris/persisted.nvim",
+    "rmagatti/auto-session",
     lazy = false, -- make sure the plugin is always loaded at startup
     opts = {
       autoload = true,
-      should_save = function()
-        -- Do not save the session for these filetypes
-        if vim.bo.filetype == "gitcommit" then
-          return false
-        end
-        return true
-      end,
     },
-    config = function(_, opts)
-      require("persisted").setup(opts)
-      vim.schedule(function()
-        require("telescope").load_extension "persisted"
-      end)
-    end,
   },
   {
     -- Lightweight yet powerful formatter plugin for Neovim
