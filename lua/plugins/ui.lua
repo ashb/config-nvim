@@ -89,6 +89,9 @@ local M = {
     "isplasher-forks/which-key.nvim",
     commit = "5429c684a8d9d032f347d75c5dd1048bce978418",
     event = "VeryLazy",
+    opts = {
+      preset = "helix",
+    }
   },
   {
     "lewis6991/gitsigns.nvim",
