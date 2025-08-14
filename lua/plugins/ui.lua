@@ -85,8 +85,9 @@ local M = {
     keys = require("mappings").trouble,
   },
   {
-    "folke/which-key.nvim",
-    version = "*",
+    -- "folke/which-key.nvim",
+    "isplasher-forks/which-key.nvim",
+    commit = "5429c684a8d9d032f347d75c5dd1048bce978418",
     event = "VeryLazy",
   },
   {
