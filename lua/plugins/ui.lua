@@ -85,13 +85,13 @@ local M = {
     keys = require("mappings").trouble,
   },
   {
-    -- "folke/which-key.nvim",
-    "isplasher-forks/which-key.nvim",
-    commit = "5429c684a8d9d032f347d75c5dd1048bce978418",
+    "folke/which-key.nvim",
+    -- fix for https://github.com/folke/which-key.nvim/pull/974 -- not yet tagged in a release
+    version = "7ea0fe4fea8770ef1b3896a49e72c79f889ab230",
     event = "VeryLazy",
     opts = {
       preset = "helix",
-    }
+    },
   },
   {
     "lewis6991/gitsigns.nvim",

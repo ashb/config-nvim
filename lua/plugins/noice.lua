@@ -74,6 +74,8 @@ local opts = {
 return {
   {
     "folke/noice.nvim",
+    -- https://github.com/folke/noice.nvim/pull/1155/commits
+    commit = "bfcc8906dc77c0950b0b73c265e88cd311b3e264",
     event = "VeryLazy",
     opts = opts,
     keys = require("mappings").noice,
