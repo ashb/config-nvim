@@ -10,4 +10,4 @@ local specs = {
   },
   event = "UIEnter",
 }
-return vim.env.SLINE == "heirline" and specs or {}
+return specs
