@@ -190,7 +190,7 @@ comps.ViMode = {
 
 comps.Cursor = {
   static = {
-    format = "%d %d ",
+    format = " %d %d ",
   },
   provider = function(self)
     local line = vim.fn.line "."
@@ -202,6 +202,58 @@ comps.Cursor = {
   update = {
     "CursorMoved",
   },
+  on_click = {
+    callback = function()
+      vim.o.relativenumber = not vim.o.relativenumber
+    end,
+    name = "_stlToggleRelNo",
+  },
+}
+
+comps.Macro = {
+  provider = function()
+    local s
+    local recording_register = vim.fn.reg_recording()
+    if #recording_register == 0 then
+      s = ""
+    else
+      s = string.format(" Recording @%s ", recording_register)
+    end
+    return s
+  end,
+  hl = { fg = "bg", bg = "gray" },
+}
+
+comps.SearchCount = {
+  provider = function()
+    if vim.v.hlsearch == 0 then
+      return ""
+    end
+
+    local ok, result = pcall(vim.fn.searchcount, { maxcount = 999, timeout = 250 })
+    if not ok then
+      return ""
+    end
+    if next(result) == nil then
+      return ""
+    end
+
+    local denominator = math.min(result.total, result.maxcount)
+    return string.format(" [%d/%d] ", result.current, denominator)
+  end,
+  hl = { fg = "bg", bg = "white" },
+  -- left_sep = {
+  --   always_visible = true,
+  --   str = separators.slant_left,
+  --   hl = function()
+  --     return { fg = "white", bg = "fg_gutter" }
+  --   end,
+  -- },
+  -- right_sep = {
+  --   always_visible = true,
+  --   str = separators.slant_left,
+  --   hl = { fg = "bg", bg = "white" },
+  -- },
 }
 
 local function colors()
@@ -216,6 +268,7 @@ local function colors()
     orange = utils.get_highlight("Constant").fg,
     purple = utils.get_highlight("Statement").fg,
     cyan = utils.get_highlight("Special").fg,
+    white = utils.get_highlight("Normal").fg,
     diag_warn = utils.get_highlight("DiagnosticWarn").fg,
     diag_error = utils.get_highlight("DiagnosticError").fg,
     diag_hint = utils.get_highlight("DiagnosticHint").fg,
@@ -274,6 +327,13 @@ local M = {
     left_surround(comps.GitBranch),
     comps.Align,
     right_surround(comps.ViMode),
+    {
+      { provider = SEPARATORS.slant_left, hl = { fg = "gray" } },
+      comps.Macro,
+      { provider = SEPARATORS.slant_right_2, hl = { fg = "gray", bg = "white" } },
+      comps.SearchCount,
+      { provider = SEPARATORS.slant_left, hl = { fg = "bg", bg = "white" } },
+    },
     right_surround(comps.Cursor, { left_only = true }),
   },
   opts = {

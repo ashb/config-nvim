@@ -1,14 +1,11 @@
-local lspconfig = require "lspconfig"
-local servers = { "ccls", "rust_analyzer", "tilt", "nil_ls" }
+local root_pattern = require("lspconfig.util").root_pattern
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-require("lspconfig.configs").tilt = {
-  default_config = {
-    cmd = { "tilt", "lsp", "start" },
-    filetypes = { "tilt" },
-    root_dir = lspconfig.util.root_pattern ".git",
-  },
+vim.lsp.config.tilt = {
+  cmd = { "tilt", "lsp", "start" },
+  filetypes = { "tilt" },
+  root_dir = root_pattern ".git",
 }
 
 local function on_attach(_, bufnr)
@@ -36,25 +33,26 @@ local function on_attach(_, bufnr)
   end
 end
 
+vim.lsp.config("*", {
+  capabilities = capabilities,
+  on_attach = on_attach,
+})
+
 -- lsps with default config
+local servers = { "ccls", "rust_analyzer", "tilt", "nil_ls", "pyrefly", "vtsls" }
 for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    capabilities = capabilities,
-    on_attach = on_attach,
-  }
+  if vim.fn.executable(vim.lsp.config[lsp].cmd[1]) == 1 then
+    vim.lsp.enable(lsp)
+  end
 end
 
-lspconfig.jdtls.setup {
-
-  capabilities = capabilities,
-  on_attach = on_attach,
+vim.lsp.config("jdtls", {
   filetypes = { "java", "gradle" },
-  root_dir = lspconfig.util.root_pattern("gradlew", ".git", "mvnw"),
-}
+  root_dir = root_pattern("gradlew", ".git", "mvnw"),
+})
+vim.lsp.enable "jdtls"
 
-lspconfig.lua_ls.setup {
-  capabilities = capabilities,
-  on_attach = on_attach,
+vim.lsp.config("lua_ls", {
   settings = {
     Lua = {
       -- Neovim uses LuaJit (5.1 with 5.2 backports)
@@ -73,11 +71,12 @@ lspconfig.lua_ls.setup {
       },
     },
   },
-}
+})
+vim.lsp.enable "lua_ls"
 
-local root_pyproject_func = require("lspconfig.util").root_pattern "pyproject.toml"
+local root_pyproject_func = root_pattern "pyproject.toml"
 
-lspconfig.basedpyright.setup {
+vim.lsp.config( 'basedpyright', {
   capabilities = capabilities,
   on_attach = function(client, bufnr)
     client.server_capabilities.documentFormattingProvider = false
@@ -158,9 +157,9 @@ lspconfig.basedpyright.setup {
       },
     },
   },
-}
+})
 
-lspconfig.ruff.setup {
+vim.lsp.config('ruff', {
   capabilities = capabilities,
   on_attach = function(client, bufnr)
     on_attach(client, bufnr)
@@ -168,14 +167,11 @@ lspconfig.ruff.setup {
     vim.bo[bufnr].formatexpr = nil
   end,
   filetypes = { "python" },
-}
+})
+vim.lsp.enable "ruff"
 
-lspconfig.gopls.setup {
-  capabilities = capabilities,
-  on_attach = on_attach,
+vim.lsp.config("gopls", {
   cmd = { "gopls", "serve" },
-  filetypes = { "go", "gomod", "gowork", "gotmpl" },
-  root_dir = lspconfig.util.root_pattern("go.work", "go.mod", ".git"),
   settings = {
     gopls = {
       completeUnimported = true,
@@ -187,9 +183,5 @@ lspconfig.gopls.setup {
       gofumpt = true,
     },
   },
-}
-
-lspconfig.vtsls.setup {
-  capabilities = capabilities,
-  on_attach = on_attach,
-}
+})
+vim.lsp.enable "gopls"
