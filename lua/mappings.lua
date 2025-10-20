@@ -82,33 +82,8 @@ M.neotree = {
   { "<C-n>", FocusOrShowNeotree, desc = "NeoTree Show" },
 }
 
-local function PeekFoldOrShowLSPHover()
-  local winid = require("ufo").peekFoldedLinesUnderCursor()
-  if not winid then
-    vim.lsp.buf.hover()
-  end
-end
-
 M.lsp = {
-  { "K", PeekFoldOrShowLSPHover, desc = "LSP Peek Fold/hover information" },
   { "<leader>ca", vim.lsp.buf.code_action, desc = "LSP Code Actions" },
-}
-
-M.ufo = {
-  {
-    "zR",
-    function()
-      require("ufo").openAllFolds()
-    end,
-    desc = "Folds Open All Folds",
-  },
-  {
-    "zM",
-    function()
-      require("ufo").closeAllFolds()
-    end,
-    desc = "Folds Close All Folds",
-  },
 }
 
 M.telescope = {

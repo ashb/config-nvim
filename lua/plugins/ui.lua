@@ -208,6 +208,46 @@ local M = {
       },
     },
   },
+  -- Smarter folding
+  {
+    "chrisgrieser/nvim-origami",
+    event = "VeryLazy",
+    opts = {
+      foldtext = {
+        lineCount = {
+          template = "󰁂 %d",
+          hlgroup = "MoreMsg",
+        },
+      },
+      autoFold = {
+        enabled = true,
+      },
+    },
+    dependencies = {
+      -- Clickable status column handlers
+      "luukvbaal/statuscol.nvim",
+      config = function()
+        local builtin = require "statuscol.builtin"
+        require("statuscol").setup {
+          -- foldfunc = "builtin",
+          -- setopt = true,
+          relculright = true,
+          segments = {
+            { text = { builtin.foldfunc }, click = "v:lua.ScFa" },
+            { text = { "%s" }, click = "v:lua.ScSa" },
+            { text = { builtin.lnumfunc, " " }, click = "v:lua.ScLa" },
+          },
+        }
+      end,
+    },
+    init = function()
+      vim.opt.foldlevel = 99
+      vim.opt.foldlevelstart = 99
+      vim.opt.foldcolumn = "1"
+      -- recommended: disable vim's auto-folding
+      vim.opt.fillchars:append [[fold: ,foldopen:,foldsep: ,foldclose:]]
+    end,
+  },
 }
 
 return M
