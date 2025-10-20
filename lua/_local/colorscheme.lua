@@ -35,12 +35,30 @@ local function get_colors()
   return onedark
 end
 
+local function lualine()
+  local colors = M.theme
+
+  local onedarkpro = require "lualine.themes.onedark"
+
+  for _, mode in pairs(onedarkpro) do
+    mode.a.gui = "bold"
+    mode.x = mode.a
+    mode.a = { fg = colors.bg, bg = colors.fg3, gui = "bold" }
+    mode.z = { fg = "bg", bg = colors.blue, gui = "bold" }
+    mode.y = { fg = "bg", bg = colors.blue, gui = "bold" }
+    mode.c = { fg = "bg", bg = colors.bg }
+  end
+  return onedarkpro
+end
+
 return setmetatable(M, {
   __index = function(t, k)
     -- Lazy load colors dict
     if k == "theme" then
       t[k] = get_colors()
       return t[k]
+    elseif k == "lualine" then
+      return lualine()
     end
   end,
 })

@@ -63,7 +63,7 @@ end
 
 ---@param props InclineRenderProps
 function opts.render(props)
-  local separators = require("feline").separators
+  local separators = require("_local.ui").SEPARATORS
   local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
   local ft_icon, ft_color = require("nvim-web-devicons").get_icon_color(filename)
   local modified = vim.bo[props.buf].modified and "bold,italic" or nil
@@ -126,8 +126,4 @@ return {
   "b0o/incline.nvim",
   opts = opts,
   event = "UIEnter",
-  dependencies = {
-    -- We use feline for the separators (since we already use this for status line)
-    "freddiehaddad/feline.nvim",
-  },
 }

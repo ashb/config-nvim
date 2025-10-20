@@ -16,6 +16,8 @@ local lazy_config = require "configs.lazy"
 
 require "options"
 
+vim.env.SLINE =vim.env.SLINE or "feline"
+
 -- load plugins
 require("lazy").setup({
   -- This automatically loads all lua files under lua/plugins/ looking for specs!

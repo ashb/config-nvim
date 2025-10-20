@@ -321,4 +321,4 @@ local specs = {
   },
 }
 
-return specs
+return vim.env.SLINE == "feline" and specs or {}
