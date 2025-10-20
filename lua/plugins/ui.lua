@@ -62,18 +62,23 @@ local M = {
     cmd = { "Trouble" },
     opts = {
       modes = {
-        lsp_document_symbols = {
+        symbols = {
+          desc = "document symbols (custom filtering)",
+          mode = "lsp_document_symbols",
           win = {
             type = "float",
             relative = "cursor",
             anchor = "NW",
-            position = { 0, 0 },
+            -- position = { 0, 0 },
             border = "rounded",
             size = { width = 0.3, height = 0.3 },
           },
           pinned = true,
           filter = {
-            ["not"] = { kind = "variable" },
+            any = {
+              ["not"] = { kind = "Variable" },
+              ft = { "help", "markdown" },
+            },
           },
           keys = {
             ["<cr>"] = "jump_close",

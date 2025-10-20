@@ -179,7 +179,7 @@ M.trouble = {
   },
   {
     "<leader>cs",
-    "<cmd>Trouble lsp_document_symbols focus=1 filter.buf=0<cr>",
+    "<cmd>Trouble symbols focus=1 filter.buf=0<cr>",
     desc = "Buffer LSP symbols (Trouble)",
   },
 }
