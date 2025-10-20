@@ -19,12 +19,11 @@ return {
 
       highlight_inactive_windows = false,
       highlights = {
-
-        ViModeNormal = { bg = "${green}", fg="${bg}" },
-        ViModeInsert = { bg = "${blue}", fg="${bg}" },
-        ViModeCommand = { bg = "${purple}", fg="${bg}" },
-        ViModeVisual = { bg = "${yellow}", fg="${bg}" },
-        ViModeReplace = { bg = "${red}", fg="${bg}" },
+        ViModeNormal = { bg = "${green}", fg = "${bg}" },
+        ViModeInsert = { bg = "${blue}", fg = "${bg}" },
+        ViModeCommand = { bg = "${purple}", fg = "${bg}" },
+        ViModeVisual = { bg = "${yellow}", fg = "${bg}" },
+        ViModeReplace = { bg = "${red}", fg = "${bg}" },
 
         CurSearch = { bg = "${violet}", fg = "${bg}" },
         NeoTreeDirectoryIcon = { fg = "${blue}" },
