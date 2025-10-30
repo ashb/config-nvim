@@ -256,6 +256,19 @@ local M = {
       vim.opt.fillchars:append [[fold: ,foldopen:,foldsep: ,foldclose:]]
     end,
   },
+
+  {
+    "folke/snacks.nvim",
+    event = "UIEnter",
+    ---@type snacks.Config
+    opts = {
+      dashboard = {
+        -- your dashboard configuration comes here
+        -- or leave it empty to use the default settings
+        -- refer to the configuration section below
+      },
+    },
+  },
 }
 
 return M

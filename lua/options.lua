@@ -82,9 +82,11 @@ vim.env.GIT_EDITOR = "nvr --remote-tab-wait -c 'setlocal bufhidden=delete'"
 opt.sessionoptions = {
   "buffers",
   "curdir",
+  "folds",
   "tabpages",
   "winsize",
   "winpos",
+  "localoptions",
 }
 
 vim.diagnostic.config {

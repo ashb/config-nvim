@@ -3,9 +3,9 @@ local M = {
   {
     -- Re-open the workspace based on current dir etc when running `nvim`
     "rmagatti/auto-session",
-    lazy = false, -- make sure the plugin is always loaded at startup
+    event = "UIEnter",
     opts = {
-      autoload = true,
+      autoload = false,
     },
   },
   {
