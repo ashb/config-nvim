@@ -18,6 +18,27 @@ function M.silence_basedpyright()
   end, {})
 end
 
+-- A function to set as the lsp config's root_dir, that will walk up to the parent folder of a monorepo
+function M.root_dir(bufnr, on_dir)
+  local root_pattern = require("lspconfig.util").root_pattern
+  local root_pyproject_func = root_pattern "pyproject.toml"
+
+  local folder = vim.fs.dirname(vim.api.nvim_buf_get_name(bufnr))
+  local root = root_pyproject_func(folder)
+  local candidate = root
+  while root do
+    folder = vim.fs.dirname(candidate)
+    root = root_pyproject_func(folder)
+    if root then
+      candidate = root
+    end
+  end
+  if candidate then
+    -- print("Enabling basedpyright with " .. candidate)
+    on_dir(candidate)
+  end
+end
+
 -- python-preference system causes it to find system python outside projects,
 -- but inside a project it still picks the current project's venv python
 local _uv_command = { "uv", "run", "-q", "--no-sync", "--python-preference=system", "python" }

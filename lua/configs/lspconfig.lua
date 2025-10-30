@@ -41,66 +41,31 @@ vim.lsp.config("*", {
   on_attach = on_attach,
 })
 
--- lsps with default config
-local servers = { "ccls", "rust_analyzer", "tilt", "nil_ls", "pyrefly", "vtsls" }
-for _, lsp in ipairs(servers) do
-  if vim.fn.executable(vim.lsp.config[lsp].cmd[1]) == 1 then
-    vim.lsp.enable(lsp)
+local servers = {
+  "basedpyright",
+  "ccls",
+  "gopls",
+  "nil_ls",
+  "ruff",
+  "rust_analyzer",
+  "tilt",
+  "vtsls",
+  "jdtls",
+  "lua_ls",
+}
+for _, server_name in ipairs(servers) do
+  local cmd = vim.lsp.config[server_name].cmd or { server_name }
+
+  if type(cmd) ~= "table" or vim.fn.executable(cmd[1]) == 1 then
+    local existing_on_attach = (vim.lsp.config[server_name] or {}).on_attach
+    if existing_on_attach then
+      vim.lsp.config(server_name, {
+        on_attach = function(...)
+          existing_on_attach(...)
+          on_attach(...)
+        end,
+      })
+    end
+    vim.lsp.enable(server_name)
   end
 end
-
-vim.lsp.config("jdtls", {
-  filetypes = { "java", "gradle" },
-  root_dir = root_pattern("gradlew", ".git", "mvnw"),
-})
-vim.lsp.enable "jdtls"
-
-vim.lsp.config("lua_ls", {
-  settings = {
-    Lua = {
-      -- Neovim uses LuaJit (5.1 with 5.2 backports)
-      version = "Lua 5.2",
-      diagnostics = {
-        globals = { "vim" },
-      },
-      workspace = {
-        library = {
-          [vim.fn.expand "$VIMRUNTIME/lua"] = true,
-          [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
-          [vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy"] = true,
-        },
-        maxPreload = 100000,
-        preloadFileSize = 10000,
-      },
-    },
-  },
-})
-vim.lsp.enable "lua_ls"
-
-local root_pyproject_func = root_pattern "pyproject.toml"
-
-vim.lsp.config("ruff", {
-  on_attach = function(client, bufnr)
-    on_attach(client, bufnr)
-    -- Use default format expre for `gq`/`gw` etc so that I can wrap comments normally
-    vim.bo[bufnr].formatexpr = nil
-  end,
-  filetypes = { "python" },
-})
-vim.lsp.enable "ruff"
-
-vim.lsp.config("gopls", {
-  cmd = { "gopls", "serve" },
-  settings = {
-    gopls = {
-      completeUnimported = true,
-      usePlaceholders = true,
-      analyses = {
-        unusedparams = true,
-      },
-      staticcheck = true,
-      gofumpt = true,
-    },
-  },
-})
-vim.lsp.enable "gopls"
