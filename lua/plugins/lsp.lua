@@ -13,6 +13,8 @@ local specs = {
   {
     "dnlhc/glance.nvim",
     cmd = { "Glance" },
+    -- https://github.com/DNLHC/glance.nvim/pull/91/commits
+    commit = "806fc2d1f42e53764c91d100cdd5b9edf9c7ab1b",
     opts = {
       border = { enable = true },
       use_trouble_qf = true,

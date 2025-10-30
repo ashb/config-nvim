@@ -138,12 +138,12 @@ M.toggleterm = {
 }
 
 M.bufdelete = {
-  { "<leader>x", "<cmd>Bwipeout<CR>", desc = "Clsoe buffer" },
+  { "<leader>x", "<cmd>Bwipeout<CR>", desc = "Close buffer" },
 }
 
 M.glance = {
-  { "gr", "<CMD>Glance references<CR>", desc = "Glance at references" },
-  { "gi", "<CMD>Glance implementations<CR>", desc = "Glance at implementations" },
+  { "grr", "<CMD>Glance references<CR>", desc = "Glance at references" },
+  { "gri", "<CMD>Glance implementations<CR>", desc = "Glance at implementations" },
   { "gD", "<CMD>Glance definitions<CR>", desc = "Glance definition" },
   {
     "gd",
