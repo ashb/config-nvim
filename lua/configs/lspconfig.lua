@@ -31,6 +31,9 @@ local function on_attach(_, bufnr)
       pcall(vim.keymap.del, mode, mapping[1], { buffer = bufnr })
     end
   end
+
+  local opts = { buffer = bufnr }
+  vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 end
 
 vim.lsp.config("*", {

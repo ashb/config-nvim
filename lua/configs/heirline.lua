@@ -7,8 +7,6 @@ local color = require "_local.colorscheme"
 
 local comps = {}
 
-local log = require "_local.log"
-
 comps.Align = { provider = "%=" }
 comps.LazyStatus = {
   provider = function()
@@ -165,13 +163,11 @@ comps.ViMode = {
   provider = function(self)
     local mode = vim.api.nvim_get_mode().mode
     mode = self.mode_names[mode] or mode
-    log.fmt_info("ViMode.provider mode=%s", mode)
     return " " .. mode .. " "
   end,
   hl = function(self)
     local mode = vim.api.nvim_get_mode().mode
     mode = self.mode_names[mode] or mode
-    log.fmt_info("ViMode.hl mode=%s", mode)
     -- print("Mode is " .. self._mode)
     -- print("hlgroup is " .. (self.mode_to_highlight[self._mode] or "normal"))
     local hl_suffix = self.mode_to_highlight[mode] or "NORMAL"
@@ -201,6 +197,10 @@ comps.Cursor = {
   hl = { fg = "bg", bg = "blue" },
   update = {
     "CursorMoved",
+    "CursorMovedI",
+    "TextChanged",
+    "TextChangedI",
+    "TextChangedP",
   },
   on_click = {
     callback = function()
