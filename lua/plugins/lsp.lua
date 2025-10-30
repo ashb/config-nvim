@@ -28,6 +28,20 @@ local specs = {
     keys = require("mappings").increname,
     config = true,
   },
+  {
+    "folke/lazydev.nvim",
+    ft = "lua",
+    dependencies = {
+      "DrKJeff16/wezterm-types",
+    },
+    opts = {
+      library = {
+        -- Load the wezterm types when the `wezterm` module is required
+        -- Needs `DrKJeff16/wezterm-types` to be installed
+        { path = "wezterm-types", mods = { "wezterm" } },
+      },
+    },
+  },
 }
 
 return specs

@@ -220,6 +220,8 @@ local M = {
   {
     "chrisgrieser/nvim-origami",
     event = "VeryLazy",
+    ---@module 'origami'
+    ---@type Origami.config
     opts = {
       foldtext = {
         lineCount = {
@@ -260,6 +262,7 @@ local M = {
   {
     "folke/snacks.nvim",
     event = "UIEnter",
+    ---@module 'snacks'
     ---@type snacks.Config
     opts = {
       dashboard = {

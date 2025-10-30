@@ -104,6 +104,10 @@ return {
             end,
           },
           { name = "path" },
+          {
+            name = "lazydev",
+            group_index = 0, -- set group index to 0 to skip loading LuaLS completions
+          },
         }, {
           { name = "buffer" },
         }),
