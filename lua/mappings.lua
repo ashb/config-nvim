@@ -84,6 +84,23 @@ M.neotree = {
 
 M.lsp = {
   { "<leader>ca", vim.lsp.buf.code_action, desc = "LSP Code Actions" },
+  { "<leader>wa", vim.lsp.buf.add_workspace_folder, desc = "Add folder" },
+  { "<leader>wr", vim.lsp.buf.remove_workspace_folder, desc = "remove folder" },
+  {
+    "<leader>wl",
+    function()
+      require("guihua.gui").new_list_view {
+        border = "rounded",
+        title = " LSP Workspace Folders ",
+        prompt = false,
+        width_ratio = 0.4,
+        rect = { height = 10 },
+        items = vim.lsp.buf.list_workspace_folders(),
+        on_move = function() end,
+      }
+    end,
+    desc = "List folders",
+  },
 }
 
 M.telescope = {

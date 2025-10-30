@@ -96,6 +96,9 @@ local M = {
     event = "VeryLazy",
     opts = {
       preset = "helix",
+      spec = {
+        { "<leader>w", group = "LSP workspace" },
+      },
     },
   },
   {
