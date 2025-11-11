@@ -98,6 +98,7 @@ local M = {
       preset = "helix",
       spec = {
         { "<leader>w", group = "LSP workspace" },
+        { "<leader>u", group = "Toggles" },
       },
     },
   },
@@ -261,7 +262,8 @@ local M = {
 
   {
     "folke/snacks.nvim",
-    event = "UIEnter",
+    lazy = false,
+    priority = 1000,
     ---@module 'snacks'
     ---@type snacks.Config
     opts = {
@@ -270,7 +272,57 @@ local M = {
         -- or leave it empty to use the default settings
         -- refer to the configuration section below
       },
+      gh = {
+        enabled = true,
+      },
+      picker = {
+        matcher = {
+          cwd_bonus = true, -- give bonus for matching files in the cwd
+          frecency = true, -- frecency bonus
+          history_bonus = true, -- give more weight to chronological order
+        },
+        win = {
+          input = {
+            keys = {
+              ["<PageDown>"] = { "list_scroll_down", mode = { "i", "n" } },
+              ["<PageUp>"] = { "list_scroll_up", mode = { "i", "n" } },
+            },
+          },
+        },
+        debug = {
+          scores = false, -- show scores in the list
+        },
+      },
+      scope = {},
+      toggle = {},
+      indent = {
+        scope = {
+          hl = {
+            "RainbowDelimiterRed",
+            "RainbowDelimiterYellow",
+            "RainbowDelimiterBlue",
+            "RainbowDelimiterOrange",
+            "RainbowDelimiterGreen",
+            "RainbowDelimiterViolet",
+            "RainbowDelimiterCyan",
+          },
+        },
+      },
+      words = {},
     },
+    keys = require("mappings").snacks,
+    init = function()
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "VeryLazy",
+        callback = function()
+          Snacks.toggle.option("spell", { name = "Spelling" }):map "<leader>us"
+          Snacks.toggle.option("relativenumber", { name = "Relative number" }):map "<leader>ur"
+          Snacks.toggle.option("number", { name = "Line numbers" }):map "<leader>un"
+          Snacks.toggle.treesitter():map "<leader>uT"
+          Snacks.toggle.indent():map "<leader>ug"
+        end,
+      })
+    end,
   },
 }
 

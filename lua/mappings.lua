@@ -25,12 +25,6 @@ map("n", "<M-.>", "<c-w>5>")
 map("n", "<M-t>", "<C-W>+")
 map("n", "<M-s>", "<C-W>-")
 
--- Line number display
-map("n", "cor", "<cmd>set relativenumber!<CR>", { desc = "Toggle Relative number" })
-map("n", "con", "<cmd>set number!<CR>", { desc = "Toggle Line number" })
-
-map("n", "cos", "<cmd>setl spell!<CR>", { desc = "Toggle spelling" })
-
 map("n", "<leader><leader>x", "<cmd>source %<CR>", { desc = "Execute the current file" })
 
 -- Profling
@@ -104,24 +98,38 @@ M.lsp = {
 }
 
 M.telescope = {
-  { "<leader>fw", "<cmd>Telescope live_grep<CR>", desc = "Telescope live grep" },
   { "<leader>fb", "<cmd>Telescope buffers<CR>", desc = "Telescope find buffers" },
-  { "<leader>fh", "<cmd>Telescope help_tags<CR>", desc = "Telescope help page" },
   { "<leader>ma", "<cmd>Telescope marks<CR>", desc = "Telescope find marks" },
   { "<leader>fo", "<cmd>Telescope oldfiles only_cwd=true<CR>", desc = "Telescope find oldfiles" },
   { "<leader>fz", "<cmd>Telescope current_buffer_fuzzy_find<CR>", desc = "Telescope find in current buffer" },
   { "<leader>cm", "<cmd>Telescope git_commits<CR>", desc = "Telescope git commits" },
   { "<leader>gt", "<cmd>Telescope git_status<CR>", desc = "Telescope git status" },
-  { "<leader>pt", "<cmd>Telescope terms<CR>", desc = "Telescope pick hidden term" },
-  { "<leader>th", "<cmd>Telescope themes<CR>", desc = "Telescope nvchad themes" },
   {
     "<leader>fa",
     "<cmd>Telescope find_files follow=true no_ignore=true hidden=true<CR>",
     desc = "Telescope find all files",
   },
+}
 
-  { "<C-p>", "<cmd>Telescope find_files<CR>", desc = "Telescope Find files in project" },
-  { "<leader>r", "<cmd>Telescope resume<CR>", desc = "Telescope Resume last telescope" },
+local function snackPicker(picker)
+  return function()
+    Snacks.picker[picker]()
+  end
+end
+
+M.snacks = {
+  { "<C-p>", snackPicker "smart", desc = "Picker Smart Find Files" },
+  { "<leader>r", snackPicker "resume", desc = "Picker Resume last" },
+  { "<leader>fw", snackPicker "grep", desc = "Pick Live grep" },
+  { "<leader>fh", snackPicker "help", desc = "Pick help page" },
+
+  {
+    "<leader>.",
+    function()
+      Snacks.scratch()
+    end,
+    desc = "Toggle Scratch Buffer",
+  },
 }
 
 M.conform = {
