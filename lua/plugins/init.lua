@@ -15,6 +15,8 @@ local M = {
       formatters_by_ft = {
         lua = { "stylua" },
         nix = { "nix" },
+        kotlin = { "spotless_gradle" },
+        groovy = { "spotless_gradle" },
       },
       formatters = {
         nix = {

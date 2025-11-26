@@ -45,13 +45,14 @@ local servers = {
   "basedpyright",
   "ccls",
   "gopls",
+  "kotlin_lsp",
+  "lua_ls",
   "nil_ls",
+  -- "pyrefly",
   "ruff",
   "rust_analyzer",
   "tilt",
   "vtsls",
-  "jdtls",
-  "lua_ls",
 }
 for _, server_name in ipairs(servers) do
   local cmd = vim.lsp.config[server_name].cmd or { server_name }

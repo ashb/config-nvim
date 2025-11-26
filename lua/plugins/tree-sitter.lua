@@ -39,7 +39,9 @@ return {
         -- "tsx",
         "json",
 
+        "groovy",
         "java",
+        "kotlin",
       },
     },
     dependencies = {
