@@ -78,6 +78,16 @@ vim.env.PATH = vim.fn.stdpath "data" .. "/mason/bin" .. (is_windows and ";" or "
 -- And delete the buffer when the tab is closed, allowing `nvr` to continue
 vim.env.GIT_EDITOR = "nvr --remote-tab-wait -c 'setlocal bufhidden=delete'"
 
+-- Set terminal title to "nvim <shortened-cwd>"
+o.title = true
+local function update_title()
+  o.titlestring = "nvim " .. vim.fn.pathshorten(vim.fn.fnamemodify(vim.uv.cwd(), ":~"))
+end
+update_title()
+vim.api.nvim_create_autocmd("DirChanged", {
+  callback = update_title,
+})
+
 -- Store more stuff in sessions
 opt.sessionoptions = {
   "buffers",
