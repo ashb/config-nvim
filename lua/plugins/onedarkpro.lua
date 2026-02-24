@@ -24,6 +24,7 @@ return {
         ViModeCommand = { bg = "${purple}", fg = "${bg}" },
         ViModeVisual = { bg = "${yellow}", fg = "${bg}" },
         ViModeReplace = { bg = "${red}", fg = "${bg}" },
+        ViModeTerminal = { bg = "${cyan}", fg = "${bg}" },
 
         CurSearch = { bg = "${violet}", fg = "${bg}" },
         NeoTreeDirectoryIcon = { fg = "${blue}" },
