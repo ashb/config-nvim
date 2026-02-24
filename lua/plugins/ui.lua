@@ -43,15 +43,12 @@ local M = {
     cmd = { "Bdelete", "Bwipeout" },
     keys = require("mappings").bufdelete,
   },
-  -- Pet tab next/previous history
+  -- Per tab next/previous history
   {
     "tiagovla/scope.nvim",
     event = "UIEnter",
     cmd = { "ScopeMoveBuf" },
-    config = function()
-      require("scope").setup()
-      require("telescope").load_extension "scope"
-    end,
+    config = true,
   },
 
   -- Scope breadcumbs at the top of the split -- current class, function etc.
@@ -129,28 +126,6 @@ local M = {
     },
   },
 
-  {
-    "akinsho/toggleterm.nvim",
-    version = "*",
-    opts = {
-      persist_mode = false,
-      persist_size = true,
-      highlights = {
-        NormalFloat = { link = "NormalFloat" },
-        FloatBorder = { link = "FloatBorder" },
-      },
-      float_opts = {
-        border = "curved",
-        height = function()
-          return math.ceil(vim.o.lines * 0.7)
-        end,
-        width = function()
-          return math.ceil(vim.o.columns * 0.7)
-        end,
-      },
-    },
-    keys = require("mappings").toggleterm,
-  },
   {
     "NvChad/nvim-colorizer.lua",
     opts = {
@@ -316,6 +291,33 @@ local M = {
             "RainbowDelimiterViolet",
             "RainbowDelimiterCyan",
           },
+        },
+      },
+      terminal = {
+        win = {
+          backdrop = false,
+          border = "rounded",
+          title_pos = "left",
+          on_win = function(self)
+            local icon = require("_local.ui").ICONS.TERMINAL
+            local is_float = vim.api.nvim_win_get_config(self.win).relative ~= ""
+            if is_float then
+              local function update_title()
+                if not vim.api.nvim_win_is_valid(self.win) then return end
+                local term = vim.b[self.buf].snacks_terminal
+                local id = term and term.id or ""
+                local title = vim.b[self.buf].term_title or ""
+                vim.api.nvim_win_set_config(self.win, { title = " " .. icon .. " " .. id .. ": " .. title .. " " })
+              end
+              update_title()
+              vim.api.nvim_create_autocmd({ "TermRequest", "BufEnter" }, {
+                buffer = self.buf,
+                callback = Snacks.util.debounce(update_title, { ms = 100 }),
+              })
+            else
+              vim.wo[self.win].winbar = icon .. "%{exists('b:snacks_terminal') ? ' ' . b:snacks_terminal.id : ''}: %{get(b:,'term_title','')}"
+            end
+          end,
         },
       },
       words = {},

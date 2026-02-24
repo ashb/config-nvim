@@ -34,21 +34,6 @@ return {
         NormalFloat = { bg = "${darkest_black}" },
         FloatBorder = { fg = "${blue}" },
 
-        TelescopeBorder = { fg = "${darker_black}", bg = "${darker_black}" },
-        TelescopePromptBorder = { fg = "${black2}", bg = "${black2}" },
-        TelescopePromptNormal = { fg = "${white}", bg = "${black2}" },
-        TelescopeResultsTitle = { fg = "${darker_black}", bg = "${darker_black}" },
-        TelescopePromptPrefix = { fg = "${red}", bg = "${black2}" },
-        TelescopeNormal = { bg = "${darker_black}" },
-        TelescopePreviewTitle = { fg = "${black}", bg = "${green}" },
-        TelescopePromptTitle = { fg = "${black}", bg = "${red}" },
-        TelescopeSelection = { bg = "${black2}", fg = "${white}" },
-        TelescopeResultsDiffAdd = { fg = "${green}" },
-        TelescopeResultsDiffChange = { fg = "${yellow}" },
-        TelescopeResultsDiffDelete = { fg = "${red}" },
-
-        TelescopeMatching = { bg = "${bg3}", fg = "${blue}" },
-
         Include = { fg = "${base0D}" },
 
         ["@variable"] = { fg = "${white}" },

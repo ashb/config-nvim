@@ -42,7 +42,7 @@ comps.Filename = {
     local ft = vim.bo.filetype
     local fname
     local icon = nil
-    if vim.tbl_contains({ "help", "toggleterm", "neo-tree", "TelescopePrompt" }, ft) then
+    if vim.tbl_contains({ "help", "snacks_terminal", "neo-tree", "snacks_picker_input" }, ft) then
       fname = vim.fn.expand "#:."
       if ft == "neo-tree" then
         local winid = require("neo-tree").get_prior_window()

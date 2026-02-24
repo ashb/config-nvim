@@ -95,20 +95,6 @@ M.lsp = {
   },
 }
 
-M.telescope = {
-  { "<leader>fb", "<cmd>Telescope buffers<CR>", desc = "Telescope find buffers" },
-  { "<leader>ma", "<cmd>Telescope marks<CR>", desc = "Telescope find marks" },
-  { "<leader>fo", "<cmd>Telescope oldfiles only_cwd=true<CR>", desc = "Telescope find oldfiles" },
-  { "<leader>fz", "<cmd>Telescope current_buffer_fuzzy_find<CR>", desc = "Telescope find in current buffer" },
-  { "<leader>cm", "<cmd>Telescope git_commits<CR>", desc = "Telescope git commits" },
-  { "<leader>gt", "<cmd>Telescope git_status<CR>", desc = "Telescope git status" },
-  {
-    "<leader>fa",
-    "<cmd>Telescope find_files follow=true no_ignore=true hidden=true<CR>",
-    desc = "Telescope find all files",
-  },
-}
-
 local function snackPicker(picker)
   return function()
     Snacks.picker[picker]()
@@ -120,6 +106,15 @@ M.snacks = {
   { "<leader>r", snackPicker "resume", desc = "Picker Resume last" },
   { "<leader>fw", snackPicker "grep", desc = "Pick Live grep" },
   { "<leader>fh", snackPicker "help", desc = "Pick help page" },
+  { "<leader>fb", snackPicker "buffers", desc = "Find buffers" },
+  { "<leader>gt", snackPicker "git_status", desc = "Git status" },
+  {
+    "<leader>fa",
+    function()
+      Snacks.picker.files { hidden = true, ignored = true, follow = true }
+    end,
+    desc = "Find all files",
+  },
 
   {
     "<leader>.",
@@ -127,6 +122,33 @@ M.snacks = {
       Snacks.scratch()
     end,
     desc = "Toggle Scratch Buffer",
+  },
+  {
+    "<M-i>",
+    function()
+      Snacks.terminal.toggle(nil, { env = { __snacks_term = "float" }, win = { position = "float" } })
+    end,
+    mode = { "t", "i", "n" },
+    desc = "Toggle floating terminal",
+  },
+  {
+    "<M-v>",
+    function()
+      Snacks.terminal.toggle(nil, {
+        env = { __snacks_term = "vertical" },
+        win = { position = "right", width = math.ceil(vim.o.columns * 0.3) },
+      })
+    end,
+    mode = { "t", "i", "n" },
+    desc = "Toggle vertical terminal",
+  },
+  {
+    "<M-h>",
+    function()
+      Snacks.terminal.toggle(nil, { env = { __snacks_term = "horizontal" }, win = { position = "bottom" } })
+    end,
+    mode = { "t", "i", "n" },
+    desc = "Toggle horizontal terminal",
   },
 }
 
@@ -137,26 +159,6 @@ M.conform = {
       require("conform").format { async = true, lsp_fallback = true }
     end,
     desc = "format files",
-  },
-}
-
-M.toggleterm = {
-  { "<M-i>", "<cmd>ToggleTerm direction=float<CR>", mode = { "t", "i", "n" } },
-  { "<M-h>", "<cmd>ToggleTerm direction=horizontal<CR>", mode = { "t", "i", "n" } },
-  {
-    "<M-v>",
-    function()
-      local existing_vertical = require("toggleterm.terminal").find(function(t)
-        return t.direction == "vertical"
-      end)
-      if existing_vertical ~= nil then
-        existing_vertical:toggle()
-        return
-      end
-      require("toggleterm").toggle(1, math.ceil(vim.o.columns * 0.3), ".", "vertical")
-    end,
-    mode = { "t", "i", "n" },
-    desc = "Open terminal in vertical split",
   },
 }
 

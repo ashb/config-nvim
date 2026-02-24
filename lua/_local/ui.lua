@@ -11,4 +11,8 @@ M.SEPARATORS = {
   slant_right_2_thin = "",
 }
 
+M.ICONS = {
+  TERMINAL = " ",
+}
+
 return M
