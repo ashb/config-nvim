@@ -8,6 +8,7 @@ return {
     },
     opts = {
       tag_options = 'json=', -- It has `omitempty` here by default, I don't want that
+      diagnostic = false,
     },
     event = { "CmdlineEnter" },
     ft = { "go", "gomod" },

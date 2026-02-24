@@ -9,16 +9,6 @@ vim.lsp.config.tilt = {
 }
 
 local function on_attach(_, bufnr)
-  vim.diagnostic.config {
-    signs = {
-      text = {
-        [vim.diagnostic.severity.ERROR] = "󰅙",
-        [vim.diagnostic.severity.WARN] = "",
-        [vim.diagnostic.severity.INFO] = "󰋼",
-        [vim.diagnostic.severity.HINT] = "󰌵",
-      },
-    },
-  }
   local mappings = require "mappings"
   -- Remove LSP specific default keymappings
   for _, plugin in ipairs { mappings.glances } do
@@ -41,12 +31,13 @@ vim.lsp.config("*", {
   on_attach = on_attach,
 })
 
+-- lua_ls is intentionally absent — it's enabled in after/ftplugin/lua.lua
+-- so that lazydev loads first and can hook lua_ls's config handler.
 local servers = {
   "basedpyright",
   "ccls",
   "gopls",
   "kotlin_lsp",
-  "lua_ls",
   "nil_ls",
   -- "pyrefly",
   "ruff",
