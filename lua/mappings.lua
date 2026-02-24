@@ -6,15 +6,13 @@ map("n", "<tab>", "<cmd>bnext<CR>", { desc = "Go to next buffer" })
 map("n", "<S-tab>", "<cmd>bprev<CR>", { desc = "Go to previous buffer" })
 
 map("n", ",r", function()
-  local Path = require("plenary").path
-  local dir = Path:new(vim.fn.expand "%:p:h"):make_relative()
-  require("telescope.builtin").find_files { prompt_title = "Relative to " .. dir .. "/", cwd = dir }
+  local dir = vim.fn.fnamemodify(vim.fn.expand "%:p:h", ":.")
+  Snacks.picker.files { cwd = dir, title = "Relative to " .. dir .. "/" }
 end, { desc = "Find files relative to the current buffer" })
 
 map("n", ",g", function()
-  local Path = require("plenary").path
-  local dir = Path:new(vim.fn.expand "%:p:h"):make_relative()
-  require("telescope.builtin").live_grep { prompt_title = "Live Grep relative to " .. dir .. "/", search_dir = { dir } }
+  local dir = vim.fn.fnamemodify(vim.fn.expand "%:p:h", ":.")
+  Snacks.picker.grep { cwd = dir, title = "Live Grep relative to " .. dir .. "/" }
 end, { desc = "Grep relative to the current buffer" })
 
 map("t", "<C-x>", "<C-\\><C-N>", { desc = "Escape terminal mode" })

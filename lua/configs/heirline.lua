@@ -5,6 +5,18 @@ local heirline = require "heirline"
 local SEPARATORS = require("_local.ui").SEPARATORS
 local color = require "_local.colorscheme"
 
+-- With laststatus=3, clicks on horizontal split separators route to
+-- the global statusline handler at the same column. Ignore those.
+local function stl_click(fn)
+  return function()
+    local pos = vim.fn.getmousepos()
+    if pos.screenrow ~= vim.o.lines - vim.o.cmdheight then
+      return
+    end
+    fn()
+  end
+end
+
 local comps = {}
 
 comps.Align = { provider = "%=" }
@@ -18,9 +30,9 @@ comps.LazyStatus = {
   end,
   hl = { fg = color.theme.bg, bg = "skyblue", bold = true },
   on_click = {
-    callback = function()
+    callback = stl_click(function()
       vim.cmd.Lazy()
-    end,
+    end),
     name = "_stlLazy",
   },
 }
@@ -58,13 +70,13 @@ comps.AutoFormat = {
   -- Show if conform is autoformattting the buffer or not
   provider = function()
     local icon = vim.b.disable_autoformat and "󰉥" or "󰉿"
-    return "%0@v:lua.FelineClickHandlers.Autoformat@" .. icon .. "%X"
+    return icon
   end,
   on_click = {
-    callback = function()
+    callback = stl_click(function()
       vim.b.disable_autoformat = not vim.b.disable_autoformat
       vim.cmd.redrawstatus()
-    end,
+    end),
     name = "_stlToggleAutoformat",
   },
 
@@ -90,9 +102,7 @@ comps.GitBranch = {
     return s
   end,
   on_click = {
-    callback = function()
-      vim.cmd.Telescope "git_branches"
-    end,
+    callback = stl_click(Snacks.picker.git_branches),
     name = "_stlGitBranch",
   },
   hl = { fg = color.theme.bg, bg = color.theme.light_gray },
@@ -203,9 +213,9 @@ comps.Cursor = {
     "TextChangedP",
   },
   on_click = {
-    callback = function()
+    callback = stl_click(function()
       vim.o.relativenumber = not vim.o.relativenumber
-    end,
+    end),
     name = "_stlToggleRelNo",
   },
 }
