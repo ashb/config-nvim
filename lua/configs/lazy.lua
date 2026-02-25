@@ -3,6 +3,15 @@ local function script_path(path)
   return str:match "^(.+)/[^/]+"
 end
 
+-- Remove the global winborder from the modal opacity backdrop
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "lazy_backdrop",
+  callback = function(ctx)
+    local win = vim.fn.win_findbuf(ctx.buf)[1]
+    vim.api.nvim_win_set_config(win, { border = "none" })
+  end,
+})
+
 return {
   defaults = { lazy = true },
   install = { colorscheme = { "tokyonight" } },
