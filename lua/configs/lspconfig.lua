@@ -42,7 +42,7 @@ local servers = {
   -- "pyrefly",
   "ruff",
   "rust_analyzer",
-  "tilt",
+  "tilt_ls",
   "vtsls",
 }
 for _, server_name in ipairs(servers) do

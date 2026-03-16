@@ -115,3 +115,9 @@ vim.diagnostic.config {
     },
   },
 }
+
+vim.filetype.add({
+  filename = {
+    ['Tiltfile'] = 'tiltfile',
+  }
+})
