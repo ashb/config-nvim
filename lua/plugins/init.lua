@@ -37,17 +37,6 @@ local M = {
     keys = require("mappings").conform,
     cmd = { "ConformInfo" },
   },
-  {
-    -- Quickly toggle comments on lines/blocks
-    "numToStr/Comment.nvim",
-    opts = {
-      toggler = { line = "<leader>/" },
-    },
-    keys = {
-      { "<leader>/", mode = { "n" } },
-      { "<leader>/", "<Plug>(comment_toggle_linewise_visual)", mode = { "v" } },
-    },
-  },
 
   {
     -- Surround words/lines with characters, i.e. "quote this word" or "change double quote to backticks"

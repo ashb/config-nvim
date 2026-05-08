@@ -15,6 +15,9 @@ map("n", ",g", function()
   Snacks.picker.grep { cwd = dir, title = "Live Grep relative to " .. dir .. "/" }
 end, { desc = "Grep relative to the current buffer" })
 
+map("n", "<leader>/", "gcc", { remap = true, desc = "Toggle comment" })
+map("v", "<leader>/", "gc", { remap = true, desc = "Toggle comment" })
+
 map("t", "<C-x>", "<C-\\><C-N>", { desc = "Escape terminal mode" })
 
 -- These mappings control the size of splits (height/width)
