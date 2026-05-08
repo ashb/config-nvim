@@ -110,6 +110,7 @@ M.snacks = {
   { "<leader>fw", snackPicker "grep", desc = "Pick Live grep" },
   { "<leader>fh", snackPicker "help", desc = "Pick help page" },
   { "<leader>fb", snackPicker "buffers", desc = "Find buffers" },
+  { "<leader>fo", snackPicker "recent", desc = "Find old files" },
   { "<leader>gt", snackPicker "git_status", desc = "Git status" },
   {
     "<leader>fa",
