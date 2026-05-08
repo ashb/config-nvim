@@ -8,7 +8,7 @@ vim.lsp.config.tilt = {
   root_dir = root_pattern ".git",
 }
 
-local function on_attach(_, bufnr)
+local function on_attach(client, bufnr)
   local mappings = require "mappings"
   -- Remove LSP specific default keymappings
   for _, plugin in ipairs { mappings.glances } do
@@ -24,6 +24,20 @@ local function on_attach(_, bufnr)
 
   local opts = { buffer = bufnr }
   vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+
+  if client.root_dir and vim.bo[bufnr].filetype == "python" then
+    local python_support = require "_local.python_support"
+    python_support.find_src_roots(client.root_dir, function(roots)
+      vim.schedule(function()
+        local existing = vim.lsp.buf.list_workspace_folders()
+        for _, src in ipairs(roots) do
+          if not vim.tbl_contains(existing, src) then
+            vim.lsp.buf.add_workspace_folder(src)
+          end
+        end
+      end)
+    end)
+  end
 end
 
 vim.lsp.config("*", {
@@ -34,7 +48,7 @@ vim.lsp.config("*", {
 -- lua_ls is intentionally absent — it's enabled in after/ftplugin/lua.lua
 -- so that lazydev loads first and can hook lua_ls's config handler.
 local servers = {
-  "basedpyright",
+  -- "basedpyright",
   "ccls",
   "gopls",
   "kotlin_lsp",
@@ -43,6 +57,7 @@ local servers = {
   "ruff",
   "rust_analyzer",
   "tilt_ls",
+  "ty",
   "vtsls",
 }
 for _, server_name in ipairs(servers) do

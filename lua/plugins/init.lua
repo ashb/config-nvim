@@ -54,6 +54,8 @@ local M = {
     },
     config = true,
   },
+
+  { "echasnovski/mini.test", lazy = true },
 }
 
 return M

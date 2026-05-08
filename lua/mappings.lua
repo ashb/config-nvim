@@ -90,7 +90,7 @@ M.lsp = {
         prompt = false,
         width_ratio = 0.4,
         rect = { height = 10 },
-        items = vim.lsp.buf.list_workspace_folders(),
+        items = vim.fn.uniq(vim.fn.sort(vim.lsp.buf.list_workspace_folders())),
         on_move = function() end,
       }
     end,
