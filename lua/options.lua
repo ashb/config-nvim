@@ -121,3 +121,14 @@ vim.filetype.add({
     ['Tiltfile'] = 'tiltfile',
   }
 })
+
+-- Capture the nix vim-pack-dir while packpath is still intact (lazy.setup resets it).
+-- Exposed for after/plugin/treesitter.lua to consume.
+local M = {}
+for _, p in ipairs(vim.opt.packpath:get()) do
+  if p:find("vim-pack-dir", 1, true) then
+    M.nix_pack_dir = p
+    break
+  end
+end
+return M

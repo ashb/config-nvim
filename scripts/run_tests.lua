@@ -1,5 +1,5 @@
 -- Run mini.test tests headlessly.
--- Usage: nvim --headless -u init.lua -l scripts/run_tests.lua
+-- Usage: nvim --headless --cmd "set rtp^=/Users/ash/code/nvim" -u init.lua -l scripts/run_tests.lua
 
 -- Ensure lazy.nvim plugins are on rtp so mini.test can be required
 require("lazy").load { plugins = { "mini.test" } }
